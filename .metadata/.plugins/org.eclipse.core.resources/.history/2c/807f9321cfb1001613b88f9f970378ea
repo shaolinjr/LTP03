@@ -1,0 +1,100 @@
+
+
+import java.io.*;
+import java.util.*;
+public class Estacionamento {
+	static char			ativo;
+	static String		codEst;
+	static String		placa;
+	static char			tipoOperacao;
+	static String		codMarca;
+	static String		modeloCor;
+	static String		categoriaVeiculo;
+	static String		dataOperacao;
+	static String		horaEntrada;
+	static String		horaSaida;
+	static float		valorPago;
+	
+	
+	static RandomAccessFile arquivo;
+	static Scanner 	leia = new Scanner(System.in);
+	
+	/****************** Metodos Principais *************************/
+	// Metodo de consulta de veículos
+	
+	/*
+	 *O programa de consulta deverá apresentar na tela os dados dos veículos com as seguintes opções:
+		1 - Exibir todos os registros
+		2 - Exibir somente os veículos que ainda não saíram do estacionamento
+		3 - Exibir os registros cadastrados em uma Data informada
+	
+	Exemplo de layout da consulta:
+	
+	Placa          OP  Desc. veículo         Desc.Marca      Categoria     Data            Hr Entr    Hr Saída     Vlr Pago
+	------------  --- ---------------------  --------------  ------------  --------------  ---------  -----------  ----------
+	ABC1111   		E   Palio cinza             Fiat	      PN	         01/03/2014     10:20	
+	XYZ2222   		S   Gol vermelho           Volkswagen     PN	         12/02/2014     12:15       13:15       7,00	
+
+	 */
+	 public static void consulta (){
+		 byte escolha = -1;
+		 System.out.println("****************** PROGRAM DE CONSULTA ******************");
+		 
+		 do {
+			 System.out.println("Escolha a opção que deseja realizar, digite 0 para sair.");
+			 System.out.println("\n[ 1 ] Exibir todos os registros");
+			 System.out.println("[ 2 ] Exibir somente os veículos que ainda não saíram do estacionamento");
+			 System.out.println("[ 3 ] Exibir somente os veículos cadastrados em uma data específica");
+			 System.out.print("\nO que deseja fazer?: ");
+			 escolha = leia.nextByte();
+			 
+			 if (escolha < 0){
+				 System.out.println("Opção Inválida. Digite novamente.");
+			 }else if (escolha == 0){
+				 System.out.println("Até mais...");
+				 break;
+			 }
+		 }while(escolha < 0);
+		 
+		 switch (escolha){
+		 case 1:
+			 try{ 
+				 arquivo = new RandomAccessFile("estacionamento.dat", "rw");
+				 arquivo.seek(0); // garantir que esteja na posicao 0 na primeira rodada
+				 while (true){
+					 ativo = arquivo.readChar();
+					 codEst = arquivo.readUTF();
+					 placa = arquivo.readUTF();
+					 tipoOperacao = arquivo.readChar();
+					 
+					 relatorioHeader();
+					 
+				 }
+//				 arquivo.close();
+//			 }catch (EOFException e){
+//				 System.out.println("Não foi encontrado nenhum registro.");
+			 }catch (IOException e){
+				 System.out.println("Ocorreu um erro ao tentar abrir o arquivo. Finalizando o programa.");
+				 System.exit(0);
+			 }
+			 break;
+		 case 2:
+			 break;
+		 case 3:
+			 break;
+		 }
+		 
+		
+		 
+	 }
+	 public static void relatorioHeader () {
+		// Estrutura do relatório de pesquisa
+		System.out.println("Placa\tOP  Veículo\tMarca\tCategoria    Data\tHr.Entrada   Hr.Saída\tValor Pago");
+		System.out.println("-----\t--  -----------\t-------\t-----------  ---------  ----------   ---------\t----------");
+	 }
+	 public static long pesquisaVeiculo (){
+		return 00000;
+	 }
+
+	
+}

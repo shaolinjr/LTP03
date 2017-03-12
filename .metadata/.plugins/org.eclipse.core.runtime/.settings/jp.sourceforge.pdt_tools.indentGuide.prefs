@@ -1,0 +1,5 @@
+content_types=org.eclipse.core.runtime.text|org.eclipse.jdt.core.javaProperties|org.eclipse.jdt.core.JARManifest|org.eclipse.jdt.core.javaSource
+draw_blank_line=true
+eclipse.preferences.version=1
+line_color=172,174,174
+line_style=2
