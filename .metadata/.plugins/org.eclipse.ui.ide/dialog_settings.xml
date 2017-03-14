@@ -13,12 +13,22 @@
 		<item value="true" key="WizardProjectsImportPage.STORE_ARCHIVE_SELECTED"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
 			<item value=""/>
+			<item value="/Users/arthurpires/Documents/Eclipse/workspace/LTP03/ExercicioExtra01"/>
 			<item value="/Users/arthurpires/Documents/Eclipse/workspace/ArthurBrenoCamilaDiegoIgor"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
-			<item value="/Users/arthurpires/Documents/Eclipse/workspace/ArthurBrenoCamilaDiegoIgor.zip"/>
+			<item value="/Users/arthurpires/Downloads/Projetos Eclipse/Cadastro de Livros.zip"/>
 			<item value=""/>
+			<item value="/Users/arthurpires/Documents/Eclipse/workspace/ArthurBrenoCamilaDiegoIgor.zip"/>
 		</list>
+	</section>
+	<section name="WORKBENCH_SETTINGS">
+		<list key="ENABLED_TRANSFERS">
+		</list>
+	</section>
+	<section name="ChooseWorkspaceDialogSettings">
+		<item value="344" key="DIALOG_X_ORIGIN"/>
+		<item value="205" key="DIALOG_Y_ORIGIN"/>
 	</section>
 	<section name="org.eclipse.ui.dialogs.FilteredResourcesSelectionDialog">
 		<item value="false" key="FilterByLocation"/>
