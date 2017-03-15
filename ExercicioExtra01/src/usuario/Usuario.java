@@ -2,14 +2,11 @@ package usuario;
 
 import dados.Livro;
 
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import cadastro.CadLivros;
 import utilitarios.Console;
-
-
 public class Usuario {
 	
 	private static int option;
@@ -20,7 +17,7 @@ public class Usuario {
 		
 		while (true){
 			menu();
-			option = console.readInt("Qual op√ß√£o voc√™ deseja?: ");
+			option = console.readInt("Qual opÁ„o vocÍ deseja?: ");
 			
 			switch (option){
 				case 1:
@@ -28,7 +25,7 @@ public class Usuario {
 					CadLivros.adicionarlivro(livro);
 					break;
 				case 2:
-					// fazer menu com os campos que poder√£o ser editados
+					// fazer menu com os campos que poder„o ser editados
 					alterarDadosLivro();
 					break;
 				case 3:
@@ -45,7 +42,7 @@ public class Usuario {
 					System.exit(0);
 					break;
 				default:
-					System.out.println("Op√ß√£o n√£o encontrada!");
+					System.out.println("OpÁ„o n„o encontrada!");
 					break;
 			}
 			if (option < 1 || option > 6){
@@ -59,25 +56,18 @@ public class Usuario {
 		System.out.println("1) Cadastrar novo livro");
 		System.out.println("2) Alterar algum livro");
 		System.out.println("3) Excluir algum livro");
-		System.out.println("4) Consultar livro pelo c√≥digo");
-		System.out.println("5) Consultar livro pelo t√≠tulo");
+		System.out.println("4) Consultar livro pelo cÛdigo");
+		System.out.println("5) Consultar livro pelo tÌtulo");
 		System.out.println("6) Sair");
 	}
 	
 	private static void dadosLivro (Livro livro){
-		
-		if (livro != null){
-			System.out.println("C√≥digo..........: "+ livro.getCodigo());
-			System.out.println("T√≠tulo..........: "+ livro.getTitulo());
-			System.out.println("Autor(es).......: "); // talvez teremos que fazer um for
-			for (String autor: livro.getAutor()){
-				System.out.print("\t"+autor+"\n");
-			}
-			System.out.println("Data............: "+livro.getData().getTime()+"\n");
+		// modificar para usar o toString!
+		if (livro != null){;
+			System.out.println(livro.toString());
 		}else {
 			System.out.println("Nenhum livro foi encontrado!");
 		}
-	
 	}
 	
 	private static Livro pegarDadosLivro (){
@@ -88,18 +78,18 @@ public class Usuario {
 		GregorianCalendar data 	= new GregorianCalendar();
 		Livro livro;
 		do {
-			codigo = console.readInt("Digite o c√≥digo do livro: ");
+			codigo = console.readInt("Digite o cÛdigo do livro: ");
 			if (codigo <= 0){
-				System.out.println("C√≥digo inv√°lido, deve ser positivo e maior que zero!");
+				System.out.println("CÛdigo inv·lido, deve ser positivo e maior que zero!");
 				
 			}
 		}while(codigo <= 0);
 		
 		do {
-			titulo = console.readLine("Digite o t√≠tulo do livro: ");
+			titulo = console.readLine("Digite o tÌtulo do livro: ");
 			
 			if (titulo.length() == 0){
-				System.out.println("T√≠tulo inv√°lido, n√£o deve ser deixado em branco!");
+				System.out.println("TÌtulo inv·lido, n„o deve ser deixado em branco!");
 			}
 		}while(titulo.length() == 0);
 		
@@ -112,7 +102,7 @@ public class Usuario {
 			}
 			
 			if (autor.size() == 0){
-				System.out.println("Nome inv√°lido, n√£o deve ser deixado em branco!");
+				System.out.println("Nome inv·lido, n„o deve ser deixado em branco!");
 			}
 		}
 		
@@ -122,16 +112,35 @@ public class Usuario {
 	}
 	
 	private static void excluirLivro (){
-		Livro livro = pegarDadosLivro();
-		CadLivros.excluirLivro(livro);
+		int codigo;
+		do {
+			codigo = console.readInt("Digite o cÛdigo para buscar [0 para cancelar]: ");
+			if (codigo < 0){
+				System.out.println("CÛdigo inv·lido, deve ser positivo e maior que zero!");
+				
+			}else if (codigo == 0){
+				break;
+			}
+			Livro livro = CadLivros.consultaPorCodigo(codigo);
+			
+		
+			if (livro != null){
+				CadLivros.excluirLivro(livro);
+			}else{
+				System.out.println("CÛdigo inv·lido, livro n„o cadastrado.");
+			}
+		
+		}while(codigo <= 0 || livro == null);
+		
+		
 	}
 	
 	private static void consultarPorCodigo (){
 		int codigo;
 		do {
-			codigo = console.readInt("Digite o c√≥digo para busca: ");
+			codigo = console.readInt("Digite o cÛdigo para busca: ");
 			if (codigo <= 0){
-				System.out.println("C√≥digo inv√°lido, deve ser positivo e maior que zero!");
+				System.out.println("CÛdigo inv·lido, deve ser positivo e maior que zero!");
 				
 			}
 		}while(codigo <= 0);
@@ -143,10 +152,10 @@ public class Usuario {
 		String titulo;
 		
 		do {
-			titulo = console.readLine("Digite o t√≠tulo do livro: ");
+			titulo = console.readLine("Digite o tÌtulo do livro: ");
 			
 			if (titulo.length() == 0){
-				System.out.println("T√≠tulo inv√°lido, n√£o deve ser deixado em branco!");
+				System.out.println("TÌtulo inv·lido, n„o deve ser deixado em branco!");
 			}
 		}while(titulo.length() == 0);
 		
@@ -156,17 +165,15 @@ public class Usuario {
 	}
 
 	private static void alterarDadosLivro (){
-		// Como faremos para pegar o livro?: Melhor solu√ß√£o seria pelo codigo
-		// depois do codigo, mostrar dados e menu para escolher campo a ser modificado
-		// unico que n√£o pode ser modificado √© o de codigo
-		// a hora tamb√©m deve ser atualizada
+		// TODO: Refactoring nesse metodo, talvez dividir em mais partes
 		int codigo;
 		int opcao = 0;
 		Livro livro;
+		String escolha = "x";
 		do {
-			codigo = console.readInt("Digite o c√≥digo para busca: ");
+			codigo = console.readInt("Digite o cÛdigo para busca: ");
 			if (codigo <= 0){
-				System.out.println("C√≥digo inv√°lido, deve ser positivo e maior que zero!");
+				System.out.println("CÛdigo inv·lido, deve ser positivo e maior que zero!");
 				
 			}
 		}while(codigo <= 0);
@@ -175,17 +182,37 @@ public class Usuario {
 		
 		while (true){
 			System.out.println("Qual campo deseja modificar?: ");
-			System.out.println("1) T√≠tulo");
+			System.out.println("1) TÌtulo");
 			System.out.println("2) Autor(es)");
 			System.out.println("3) Cancelar");
 			
-			opcao = console.readInt("Digite sua op√ß√£o: ");
+			opcao = console.readInt("Digite sua opÁ„o: ");
 			
 			switch (opcao){
 				case 1:
-					String titulo = console.readLine("Digite o novo t√≠tulo: ");
-					livro.setTitulo(titulo);
+					String titulo = console.readLine("Digite o novo tÌtulo: ");
+					
+					if (!titulo.isEmpty()){
+						do {
+							escolha = console.readLine("Deseja confirmar atualizaÁ„o?: [S|N]");
+							
+							
+							if (escolha.equalsIgnoreCase("S")){
+								livro.setTitulo(titulo);
+							}else if (escolha.equalsIgnoreCase("N")){
+								System.out.println("ModificaÁıes desconsideradas.");
+								break;
+							}else {
+								System.out.println("OpÁ„o inv·lida, tente novamente.");
+							}
+						}while(!escolha.equalsIgnoreCase("S") && !escolha.equalsIgnoreCase("N"));
+					}
+					else {
+						
+					}
+					
 					break;
+					
 				case 2:
 					ArrayList<String> autores = new ArrayList<String>();
 					String nome = "";
@@ -198,16 +225,30 @@ public class Usuario {
 						}
 						
 						if (autores.size() == 0){
-							System.out.println("Nome inv√°lido, n√£o deve ser deixado em branco!");
+							System.out.println("Nome inv·lido, n„o deve ser deixado em branco!");
 						}
 					}
-					livro.setAutor(autores); //adicionando campo no livro atual
+					do {
+						escolha = console.readLine("Deseja confirmar atualizaÁ„o?: [S|N]");
+						
+						
+						if (escolha.equalsIgnoreCase("S")){
+							livro.setAutor(autores); //adicionando campo no livro atual
+						}else if (escolha.equalsIgnoreCase("N")){
+							System.out.println("ModificaÁıes desconsideradas.");
+							break;
+						}else {
+							System.out.println("OpÁ„o inv·lida, tente novamente.");
+						}
+					}while(!escolha.equalsIgnoreCase("S") && !escolha.equalsIgnoreCase("N"));
+					
 					break;
+					
 				case 3:
-		
 					break;
+					
 				default:
-					System.out.println("Op√ß√£o inv√°lida!");
+					System.out.println("OpÁ„o inv·lida!");
 					break;	
 			}
 			
@@ -221,9 +262,3 @@ public class Usuario {
 	}
 }
 
-/* M√©todo main para apresentar o menu principal e antes de sair 
- * do programa imprimir mensagem de finaliza√ß√£o.
-	M√©todos est√°ticos e privados para apresentar um menu com op√ß√µes para m√©todos: 
-	cadastrar um novo livro, alterar livro, excluir um livro, consultar o livro pelo c√≥digo, 
-	consultar o livro pelo nome (titulo).
-*/

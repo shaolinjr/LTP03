@@ -2,7 +2,7 @@ package dados;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-
+import java.lang.StringBuilder;
 public class Livro {
 
 	private int codigo;
@@ -61,7 +61,18 @@ public class Livro {
 
 // MÃ©todo toString	
 	public String toString() {
-		return "Livro [codigo=" + codigo + ", titulo=" + titulo + ", autor=" + autor + ", data=" + data + "]";
+		
+		StringBuilder builder = new StringBuilder();
+		for (String value : autor) {
+		  builder.append(value+", ");
+		 
+		}
+		builder.deleteCharAt(builder.length()-1);
+		
+		return "Código...........: " + codigo + 
+				"\nTítulo........: " + titulo + 
+				"\nAutor(es).....: " + builder.toString() +
+				"\nData..........: " + data.getTime();
 	}
 	
 	
