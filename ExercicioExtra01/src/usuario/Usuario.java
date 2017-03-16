@@ -45,9 +45,9 @@ public class Usuario {
 					System.out.println("Opção não encontrada!");
 					break;
 			}
-			if (option < 1 || option > 6){
-				break;
-			}
+//			if (option < 1 || option > 6){
+//				
+//			}
 		}
 	}
 	
@@ -97,12 +97,12 @@ public class Usuario {
 			// ver logica para permitir mais de um autor
 			nome = console.readLine("Digite o nome do autor [0, para finalizar]: ");
 			
+			if (nome.isEmpty()){
+				System.out.println("Nome inválido, não deve ser deixado em branco!");
+				continue;
+			}
 			if (!nome.equals("0")){
 				autor.add(nome);
-			}
-			
-			if (autor.size() == 0){
-				System.out.println("Nome inválido, não deve ser deixado em branco!");
 			}
 		}
 		
@@ -165,11 +165,13 @@ public class Usuario {
 	}
 
 	private static void alterarDadosLivro (){
-		// TODO: Refactoring nesse metodo, talvez dividir em mais partes
 		int codigo;
 		int opcao = 0;
 		Livro livro;
 		String escolha = "x";
+		
+		
+		// Verifica o código digitado
 		do {
 			codigo = console.readInt("Digite o código para busca: ");
 			if (codigo <= 0){
@@ -177,9 +179,12 @@ public class Usuario {
 				
 			}
 		}while(codigo <= 0);
-		livro = CadLivros.consultaPorCodigo(codigo);
-		dadosLivro(livro);
 		
+		// Se o codigo for valido, buscamos o livro e seguimos
+		livro = CadLivros.consultaPorCodigo(codigo);
+		dadosLivro(livro); // Se encontrar exibe os dados, ou entao exibe que nao encontrou
+		
+		// menu de modificacao dos campos
 		while (true){
 			System.out.println("Qual campo deseja modificar?: ");
 			System.out.println("1) Título");
@@ -189,31 +194,37 @@ public class Usuario {
 			opcao = console.readInt("Digite sua opção: ");
 			
 			switch (opcao){
+			
 				case 1:
-					String titulo = console.readLine("Digite o novo título: ");
-					
-					if (!titulo.isEmpty()){
-						do {
-							escolha = console.readLine("Deseja confirmar atualização?: [S|N]");
-							
-							
-							if (escolha.equalsIgnoreCase("S")){
-								livro.setTitulo(titulo);
-							}else if (escolha.equalsIgnoreCase("N")){
-								System.out.println("Modificações desconsideradas.");
-								break;
-							}else {
-								System.out.println("Opção inválida, tente novamente.");
-							}
-						}while(!escolha.equalsIgnoreCase("S") && !escolha.equalsIgnoreCase("N"));
-					}
-					else {
+					String titulo = "";
+					// validacao do titulo
+					do {
+						titulo = console.readLine("Digite o novo título: ");
 						
-					}
+						if(titulo.isEmpty()){
+							System.out.println("Título em branco, digite novamente!");
+						}
+						
+					}while(titulo.isEmpty());
+					
+					// confirmar mudança de titulo
+					do {
+						escolha = console.readLine("Deseja confirmar atualização?: [S|N]");
+						
+						if (escolha.equalsIgnoreCase("S")){
+							livro.setTitulo(titulo);
+						}else if (escolha.equalsIgnoreCase("N")){
+							System.out.println("Modificações desconsideradas.");
+							break;
+						}else {
+							System.out.println("Opção inválida, tente novamente.");
+						}
+					}while(!escolha.equalsIgnoreCase("S") && !escolha.equalsIgnoreCase("N"));
 					
 					break;
 					
 				case 2:
+					
 					ArrayList<String> autores = new ArrayList<String>();
 					String nome = "";
 					while(!nome.equals("0")) {
@@ -221,16 +232,19 @@ public class Usuario {
 						nome = console.readLine("Digite o nome do autor [0, para finalizar]: ");
 						
 						if (!nome.equals("0")){
-							autores.add(nome);
-						}
-						
-						if (autores.size() == 0){
-							System.out.println("Nome inválido, não deve ser deixado em branco!");
+							if (nome.isEmpty()){
+								System.out.println("Nome inválido, não deve ser deixado em branco!");
+								continue;
+							}
+							if (!nome.equals("0")){
+								autores.add(nome);
+							}
 						}
 					}
+
+					// validacao atualizacao dos campos de autor(es)
 					do {
 						escolha = console.readLine("Deseja confirmar atualização?: [S|N]");
-						
 						
 						if (escolha.equalsIgnoreCase("S")){
 							livro.setAutor(autores); //adicionando campo no livro atual

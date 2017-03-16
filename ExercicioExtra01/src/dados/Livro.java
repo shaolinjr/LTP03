@@ -64,7 +64,7 @@ public class Livro {
 		
 		StringBuilder builder = new StringBuilder();
 		for (String value : autor) {
-		  builder.append(value+", ");
+		  builder.append(value+",");
 		 
 		}
 		builder.deleteCharAt(builder.length()-1);
