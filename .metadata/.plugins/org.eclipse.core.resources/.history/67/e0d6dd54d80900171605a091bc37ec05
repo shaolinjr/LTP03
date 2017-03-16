@@ -1,0 +1,278 @@
+package usuario;
+
+import dados.Livro;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+
+import cadastro.CadLivros;
+import utilitarios.Console;
+public class Usuario {
+	
+	private static int option;
+	private static Console console = new Console();
+	private static Livro livro;
+	
+	public static void main(String[] args) {
+		
+		while (true){
+			menu();
+			option = console.readInt("Qual opção você deseja?: ");
+			
+			switch (option){
+				case 1:
+					livro = pegarDadosLivro();
+					CadLivros.adicionarlivro(livro);
+					break;
+				case 2:
+					// fazer menu com os campos que poderão ser editados
+					alterarDadosLivro();
+					break;
+				case 3:
+					excluirLivro();
+					break;
+				case 4:
+					consultarPorCodigo();
+					break;
+				case 5:
+					consultarPorTitulo();
+					break;
+				case 6:
+					System.out.println("Finalizando...");
+					System.exit(0);
+					break;
+				default:
+					System.out.println("Opção não encontrada!");
+					break;
+			}
+			if (option < 1 || option > 6){
+				break;
+			}
+		}
+	}
+	
+	private static void menu (){
+		System.out.println("\n********  Menu: ********");
+		System.out.println("1) Cadastrar novo livro");
+		System.out.println("2) Alterar algum livro");
+		System.out.println("3) Excluir algum livro");
+		System.out.println("4) Consultar livro pelo código");
+		System.out.println("5) Consultar livro pelo título");
+		System.out.println("6) Sair");
+	}
+	
+	private static void dadosLivro (Livro livro){
+		// modificar para usar o toString!
+		if (livro != null){;
+			System.out.println(livro.toString());
+		}else {
+			System.out.println("Nenhum livro foi encontrado!");
+		}
+	}
+	
+	private static Livro pegarDadosLivro (){
+		int codigo;
+		String titulo;
+		String nome = "";
+		ArrayList<String> autor = new ArrayList<String>();
+		GregorianCalendar data 	= new GregorianCalendar();
+		Livro livro;
+		do {
+			codigo = console.readInt("Digite o código do livro: ");
+			if (codigo <= 0){
+				System.out.println("Código inválido, deve ser positivo e maior que zero!");
+				
+			}
+		}while(codigo <= 0);
+		
+		do {
+			titulo = console.readLine("Digite o título do livro: ");
+			
+			if (titulo.length() == 0){
+				System.out.println("Título inválido, não deve ser deixado em branco!");
+			}
+		}while(titulo.length() == 0);
+		
+		while(!nome.equals("0")) {
+			// ver logica para permitir mais de um autor
+			nome = console.readLine("Digite o nome do autor [0, para finalizar]: ");
+			
+			if (!nome.equals("0")){
+				autor.add(nome);
+			}
+			
+			if (autor.size() == 0){
+				System.out.println("Nome inválido, não deve ser deixado em branco!");
+			}
+		}
+		
+		livro = new Livro(codigo, titulo, autor, data);
+		
+		return livro;
+	}
+	
+	private static void excluirLivro (){
+		int codigo;
+		do {
+			codigo = console.readInt("Digite o código para buscar [0 para cancelar]: ");
+			if (codigo < 0){
+				System.out.println("Código inválido, deve ser positivo e maior que zero!");
+				
+			}else if (codigo == 0){
+				break;
+			}
+			Livro livro = CadLivros.consultaPorCodigo(codigo);
+			
+		
+			if (livro != null){
+				CadLivros.excluirLivro(livro);
+			}else{
+				System.out.println("Código inválido, livro não cadastrado.");
+			}
+		
+		}while(codigo <= 0 || livro == null);
+		
+		
+	}
+	
+	private static void consultarPorCodigo (){
+		int codigo;
+		do {
+			codigo = console.readInt("Digite o código para busca: ");
+			if (codigo <= 0){
+				System.out.println("Código inválido, deve ser positivo e maior que zero!");
+				
+			}
+		}while(codigo <= 0);
+		Livro livro = CadLivros.consultaPorCodigo(codigo);
+		dadosLivro(livro);
+	}
+	
+	private static void consultarPorTitulo (){
+		String titulo;
+		
+		do {
+			titulo = console.readLine("Digite o título do livro: ");
+			
+			if (titulo.length() == 0){
+				System.out.println("Título inválido, não deve ser deixado em branco!");
+			}
+		}while(titulo.length() == 0);
+		
+		ArrayList<Livro> livros = new ArrayList<Livro>();
+		livros = CadLivros.consultaPorNome(titulo);
+		dadosLivro(livro);
+	}
+
+	private static void alterarDadosLivro (){
+		// TODO: Refactoring nesse metodo, talvez dividir em mais partes
+		int codigo;
+		int opcao = 0;
+		Livro livro;
+		String escolha = "x";
+		
+		
+		// Verifica o código digitado
+		do {
+			codigo = console.readInt("Digite o código para busca: ");
+			if (codigo <= 0){
+				System.out.println("Código inválido, deve ser positivo e maior que zero!");
+				
+			}
+		}while(codigo <= 0);
+		
+		// Se o codigo for valido, buscamos o livro e seguimos
+		livro = CadLivros.consultaPorCodigo(codigo);
+		dadosLivro(livro); // Se encontrar exibe os dados, ou entao exibe que nao encontrou
+		
+		// menu de modificacao dos campos
+		while (true){
+			System.out.println("Qual campo deseja modificar?: ");
+			System.out.println("1) Título");
+			System.out.println("2) Autor(es)");
+			System.out.println("3) Cancelar");
+			
+			opcao = console.readInt("Digite sua opção: ");
+			
+			switch (opcao){
+			
+				case 1:
+					String titulo = "";
+					// validacao do titulo
+					do {
+						titulo = console.readLine("Digite o novo título: ");
+						
+						if(titulo.isEmpty()){
+							System.out.println("Título em branco, digite novamente!");
+						}
+						
+					}while(titulo.isEmpty());
+					
+					// confirmar mudança de titulo
+					do {
+						escolha = console.readLine("Deseja confirmar atualização?: [S|N]");
+						
+						if (escolha.equalsIgnoreCase("S")){
+							livro.setTitulo(titulo);
+						}else if (escolha.equalsIgnoreCase("N")){
+							System.out.println("Modificações desconsideradas.");
+							break;
+						}else {
+							System.out.println("Opção inválida, tente novamente.");
+						}
+					}while(!escolha.equalsIgnoreCase("S") && !escolha.equalsIgnoreCase("N"));
+					
+					break;
+					
+				case 2:
+					
+					ArrayList<String> autores = new ArrayList<String>();
+					String nome = "";
+					while(!nome.equals("0")) {
+						// ver logica para permitir mais de um autor
+						nome = console.readLine("Digite o nome do autor [0, para finalizar]: ");
+						
+						if (!nome.equals("0")){
+							autores.add(nome);
+						}
+						
+						if (autores.size() == 0){
+							System.out.println("Nome inválido, não deve ser deixado em branco!");
+						}
+					}
+
+					// validacao atualizacao dos campos de autor(es)
+					do {
+						escolha = console.readLine("Deseja confirmar atualização?: [S|N]");
+						
+						
+						if (escolha.equalsIgnoreCase("S")){
+							livro.setAutor(autores); //adicionando campo no livro atual
+						}else if (escolha.equalsIgnoreCase("N")){
+							System.out.println("Modificações desconsideradas.");
+							break;
+						}else {
+							System.out.println("Opção inválida, tente novamente.");
+						}
+					}while(!escolha.equalsIgnoreCase("S") && !escolha.equalsIgnoreCase("N"));
+					
+					break;
+					
+				case 3:
+					break;
+					
+				default:
+					System.out.println("Opção inválida!");
+					break;	
+			}
+			
+			if (opcao == 3){
+				break;
+			}else{
+				livro.setData(new GregorianCalendar());
+			}
+		}
+		
+	}
+}
+
