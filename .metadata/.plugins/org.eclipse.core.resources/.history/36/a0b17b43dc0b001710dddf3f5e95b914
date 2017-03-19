@@ -1,0 +1,60 @@
+package biblioteca;
+
+public class Biblioteca {
+	
+	/**
+	 * Método para validar CPF
+	 * @param cpf
+	 * @return
+	 */
+	public static boolean validarCPF(String cpf){
+		return true;
+	}
+	
+	/**
+	 * Método para validar CNPJ
+	 * @param cpnj
+	 * @return
+	 */
+	public static boolean validarCPNJ(String cpnj){
+		return true;
+	}
+	
+	/**
+	 * Método para validar Email
+	 * @param email
+	 * @return
+	 */
+	public static boolean validarEmail (String email) { return true; }
+	
+	/**
+	 * Método validarPIS - Validação do DV do PIS
+	 * @param pis String com o PIS
+	 * @return true para PIS com dv correto
+	 */
+	public static boolean validarPIS (String pis) { return true; }
+	
+	/**
+	 * Método contarPalavras - Contar as palavras do texto
+	 * @param s String com o Texto
+	 * @return int com o número de palavras do texto
+	 */
+	public static int contarPalavras (String s) { return true; }
+}
+
+
+/* 	•	Tamanho da String tem que ser 11
+	•	Todos os caracteres devem ser numéricos
+	•	Não pode pertencer ao conjunto 111111111, 22222222222, 333333333, 444444444, 555555555, 666666666, 777777777, 888888888, 999999999
+
+
+	Calculo do DV do CPF => CPF => abc.def.ghi-xy
+
+		Passo-1:	       T1 = a*10 + b*9 + c*8 + d*7 + e*6 + f*5 + g*4 + h*3 + i*2
+	       x = 11 – (T1 % 11)   ;    se  x > 9 então x = 0
+		Passo-2:	       T2 = a*11 + b*10 + c*9 + d*8 + e*7 + f*6 + g*5 + h*4 + i*3 + x*2
+	       y = 11 – (T2 % 11)   ;     se  y > 9 então y = 0
+		Passo-3:	       DV = xy
+
+*/
+

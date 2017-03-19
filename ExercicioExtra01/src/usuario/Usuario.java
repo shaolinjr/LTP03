@@ -45,9 +45,6 @@ public class Usuario {
 					System.out.println("Opção não encontrada!");
 					break;
 			}
-//			if (option < 1 || option > 6){
-//				
-//			}
 		}
 	}
 	

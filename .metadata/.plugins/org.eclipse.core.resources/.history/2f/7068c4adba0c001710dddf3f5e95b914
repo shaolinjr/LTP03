@@ -1,0 +1,44 @@
+package teste;
+
+import biblioteca.Biblioteca;
+
+public class BibliotecaTeste {
+
+	public static void main(String[] args) {
+	// Teste validação email
+		String email 		= "arthurclp@icloud.com";
+		String email2 		= "arthur.pires@yeah.com.br";
+		String emailFalse 	= "arthur@.com";
+		
+		System.out.println(Biblioteca.validarEmail(email));
+		System.out.println(Biblioteca.validarEmail(emailFalse));
+		System.out.println(Biblioteca.validarEmail(email2));
+		
+	// Teste de contador de palavras
+		String texto = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+			+ "Praesent in tristique     tellus,  eu     viverra lorem. Aenean tortor libero, "
+			+ "facilisis eget ipsum dapibus,      auctor ultrices orci. Vestibulum dapibus "
+			+ "aliquet neque, id iaculis magna aliquet placerat. Nullam euismod lacus "
+			+ "sit amet ipsum       malesuada finibus. Phasellus pulvinar quam nibh, ut faucibus "
+			+ "est finibus quis.   Lorem     ipsum dolor sit amet, consectetur adipiscing elit. "
+			+ "Duis ut felis nec  ligula  posuere mollis.";  // Possui 66 palavras
+		
+		System.out.println(Biblioteca.contarPalavras(texto));
+	
+	// Teste de padronização de texto
+		String textoEspacos = "   Arthur    de Castro    ";
+		System.out.println(Biblioteca.padronizarTexto(textoEspacos));
+		
+	
+		
+	// Teste validação cpf
+		String cpf = "12134871234";
+		String[] numeros = cpf.split("");
+		for (String numero: numeros){
+			System.out.print(numero+" ");
+		}
+		
+	
+	}
+
+}

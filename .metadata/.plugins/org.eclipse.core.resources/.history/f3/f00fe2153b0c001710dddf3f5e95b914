@@ -1,0 +1,12 @@
+package teste;
+
+import biblioteca.Biblioteca;
+
+public class BibliotecaTeste {
+
+	public static void main(String[] args) {
+	// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,16 @@
+package teste;
+
+import biblioteca.Biblioteca;
+
+public class BibliotecaTeste {
+
+	public static void main(String[] args) {
+	// TODO Auto-generated method stub
+		String email = "arthurclp@icloud.com";
+		String email2 = "arthur.pires@yeah.com.br"
+		String emailFalse = "arthur@.com";
+		System.out.println(Biblioteca.validarEmail(email));
+		System.out.println(Biblioteca.validarEmail(emailFalse));
+	}
+
+}
