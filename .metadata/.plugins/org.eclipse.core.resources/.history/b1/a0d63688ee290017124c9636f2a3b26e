@@ -1,0 +1,31 @@
+package cadastro;
+
+import java.util.HashMap;
+
+import dados.Venda;
+import erros.SisVendasException;
+
+public class ListaVendas {
+	public static HashMap<Integer, Venda> regVendas = new HashMap<>();
+	
+	
+	public static void incluirVenda (Venda venda){
+		regVendas.put(venda.getNumVenda(), venda);
+	}
+	
+	public static void excluirVenda (Venda venda){
+		regVendas.remove(venda.getNumVenda());
+	}
+	
+	public static Venda buscarVendaCodigo (int codigo) throws SisVendasException{
+		if(regVendas.containsKey(codigo)){
+			return regVendas.get(codigo);
+		}else{
+			throw new SisVendasException("Não existe venda para o código fornecido");
+		}
+	}
+	
+	
+	
+	
+}

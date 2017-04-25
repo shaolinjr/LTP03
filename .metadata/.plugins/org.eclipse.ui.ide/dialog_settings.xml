@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+		<item value="/Users/arthurpires/Documents/LTP03/CONTROLE DE VISITAS"/>
+		<item value="/Users/arthurpires/Downloads/Biblioteca"/>
+	</list>
 	<section name="CleanDialogSettings">
 		<item value="484" key="DIALOG_WIDTH"/>
 		<item value="false" key="TOGGLE_SELECTED"/>
@@ -17,6 +21,9 @@
 			<item value="/Users/arthurpires/Documents/Eclipse/workspace/ArthurBrenoCamilaDiegoIgor"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">
+			<item value="/Users/arthurpires/Downloads/Projetos Eclipse/PROJETO BIBLIOTECA.zip"/>
+			<item value="/Users/arthurpires/Downloads/Projetos Eclipse/TESTE DE EXPRESSÕES REGULARES.zip"/>
+			<item value="/Users/arthurpires/Downloads/Projetos Eclipse/EXPRESSÕES REGULARES.zip"/>
 			<item value="/Users/arthurpires/Downloads/Projetos Eclipse/Cadastro de Livros.zip"/>
 			<item value=""/>
 			<item value="/Users/arthurpires/Documents/Eclipse/workspace/ArthurBrenoCamilaDiegoIgor.zip"/>
@@ -25,6 +32,8 @@
 	<section name="WORKBENCH_SETTINGS">
 		<list key="ENABLED_TRANSFERS">
 		</list>
+	</section>
+	<section name="NewWizardAction">
 	</section>
 	<section name="ChooseWorkspaceDialogSettings">
 		<item value="344" key="DIALOG_X_ORIGIN"/>

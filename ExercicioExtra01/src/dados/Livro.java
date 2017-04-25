@@ -3,6 +3,7 @@ package dados;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.lang.StringBuilder;
+import java.text.SimpleDateFormat;
 public class Livro {
 
 	private int codigo;
@@ -72,7 +73,7 @@ public class Livro {
 		return "Código...........: " + codigo + 
 				"\nTítulo........: " + titulo + 
 				"\nAutor(es).....: " + builder.toString() +
-				"\nData..........: " + data.getTime();
+				"\nData..........: " + new SimpleDateFormat("dd/MM/yy - HH:mm").format(data.getTime());
 	}
 	
 	

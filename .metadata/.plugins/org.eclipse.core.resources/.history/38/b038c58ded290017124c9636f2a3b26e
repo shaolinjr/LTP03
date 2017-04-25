@@ -1,0 +1,53 @@
+package cadastro;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import dados.Produto;
+import erros.SisVendasException;
+
+public class ListaProdutos {	
+	public static HashMap<Integer, Produto> cadProdutos = new HashMap<>();
+	
+	public static void incluirProduto (Produto produto){
+		cadProdutos.put(produto.getCodigo(), produto);
+	}
+	
+	public static void excluirProduto(Produto produto){
+		cadProdutos.remove(produto.getCodigo());
+	}
+	
+	public static Produto buscarProdutoCodigo (int codigo) throws SisVendasException{
+		if(cadProdutos.containsKey(codigo)){
+			return cadProdutos.get(codigo);
+		}else{
+			throw new SisVendasException("Não existe produto para o código fornecido!");
+		}
+	}
+	
+	public static ArrayList<Produto> produtosOrdemAlfabetica (String nomeProduto){
+		ArrayList<Produto> produtosOrdenados = new ArrayList<>();
+		
+		for (Produto produto: cadProdutos.values()){
+			if(produto.getNome().contains(nomeProduto)){
+				produtosOrdenados.add(produto);
+			}
+		}
+		
+		if(produtosOrdenados.size() != 0){
+			Collections.sort(produtosOrdenados, new OrdenarProdutosOrdemAlfabetica());
+		}
+		
+	}
+}
+
+
+class OrdenarProdutosOrdemAlfabetica implements Comparator<Produto>{
+	
+	@Override
+	public int compare(Produto o1, Produto o2) {
+		
+		return o1.getNome().compareTo(o2.getNome());
+	}
+}

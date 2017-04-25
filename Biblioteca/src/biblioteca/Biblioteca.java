@@ -1,8 +1,9 @@
 package biblioteca;
 import java.util.GregorianCalendar;
-import java.util.regex.*;
-import java.text.ParseException;
-import java.util.ArrayList;
+import java.lang.Math;
+//import java.util.regex.*;
+//import java.text.ParseException;
+//import java.util.ArrayList;
 
 public class Biblioteca {
 	
@@ -117,7 +118,7 @@ public class Biblioteca {
 		
 		try {
 			GregorianCalendar c = new GregorianCalendar();
-			c.setLenient(false);
+			c.setLenient(false); //faz com que não exista possibilidade de valores errados para mes,dia ou ano
 			c.set(ano,mes, dia);
 			c.getTime();
 
@@ -155,7 +156,14 @@ public class Biblioteca {
 	 * @param dt2 - data final do intervalo 
 	 * @return inteiro tipo long com o número de dias entre as datas 
 	 */	
-	public static long subtrairDatas (GregorianCalendar dt1, GregorianCalendar dt2) {return 000;}
+	public static long subtrairDatas (GregorianCalendar dt1, GregorianCalendar dt2) {
+		long msdt1 = dt1.getTimeInMillis();
+		long msdt2 = dt2.getTimeInMillis();
+		
+		long days = (msdt2 - msdt1)/ (1000 * 60 * 60 * 24);
+		
+		return days;
+	}
 	
 	/**
 	 * Método subtrairHoras - Calcular a diferença entre duas datas em horas
@@ -163,7 +171,14 @@ public class Biblioteca {
 	 * @param dt2 - data/hora final do intervalo 
 	 * @return tipo double com o número de horas entre as datas 
 	 */		
-	public static double subtrairHoras (GregorianCalendar dt1, GregorianCalendar dt2) { return 00; }
+	public static double subtrairHoras (GregorianCalendar dt1, GregorianCalendar dt2) { 
+		long msdt1 = dt1.getTimeInMillis();
+		long msdt2 = dt2.getTimeInMillis();
+		
+		long hours = (msdt2 - msdt1)/(1000 * 60 * 60);
+		
+		return hours; 
+	}
 	
 	/**
 	 * Método formatarMilisegundos - Mostrar as horas formatada
@@ -177,25 +192,60 @@ public class Biblioteca {
 	 * @param valor - representa o valor em reais
 	 * @return um String formatado com o valor por extenso 
 	 */		
-	public static String valorExtenso (double valor) { return "x"; }
+	public static String valorExtenso (double valor) { 
 		
+		String[] unidade = {"", "um", "dois", "três", "quatro", "cinco",
+	             "seis", "sete", "oito", "nove", "dez", "onze",
+	             "doze", "treze", "quatorze", "quinze", "dezesseis",
+	             "dezessete", "dezoito", "dezenove"};
+	    String[] centena = {"", "cento", "duzentos", "trezentos",
+	             "quatrocentos", "quinhentos", "seiscentos",
+	             "setecentos", "oitocentos", "novecentos"};
+	    String[] dezena = {"", "", "vinte", "trinta", "quarenta", "cinquenta",
+	             "sessenta", "setenta", "oitenta", "noventa"};
+	    String[] qualificaS = {"", "mil", "milhão", "bilhão", "trilhão"};
+	    String[] qualificaP = {"", "mil", "milhões", "bilhões", "trilhões"};
+	   
+		// primeiro temos que pegar a parte inteira e racional
+	    double inteiro    	= (double) Math.abs(valor);
+	    String inteiroStr 	= String.valueOf(inteiro);
+	    double racional		= (valor - inteiro);
+	    int tamanho 		= inteiroStr.length();
+	    int unidades;
+	    int dezenas;
+    	int centenas;
+    	int milhares;
+    	int u = 0;
+    	int d = 0;
+    	int c = 0;
+    	
+	    if (tamanho > 3 && tamanho < 7){
+	    	// estamos nos milhares
+	    	unidades = Integer.parseInt(inteiroStr.substring(tamanho - 1));
+	    	dezenas  = Integer.parseInt(inteiroStr.substring(tamanho - 2, tamanho - 1));
+	    	centenas = Integer.parseInt(inteiroStr.substring(tamanho - 3 , tamanho - 2));
+	    	milhares = Integer.parseInt(inteiroStr.substring(0 , tamanho - 3)); // milhares precisa de um tratamento extra
+	    	
+	    	if (String.valueOf(milhares).length() == 2){
+
+	    		u 	= Integer.parseInt(String.valueOf(milhares).substring(1, 2));
+	    		d  	= Integer.parseInt(String.valueOf(milhares).substring(0,1));
+	    		
+	    	}else if(String.valueOf(milhares).length() == 3){
+	    		
+	    		u 	= Integer.parseInt(String.valueOf(milhares).substring(2, 3));
+	    		d  	= Integer.parseInt(String.valueOf(milhares).substring(1,2));
+	    		c 	= Integer.parseInt(String.valueOf(milhares).substring(0,1));
+	    	}else {
+	    		u 	= Integer.parseInt(String.valueOf(milhares).substring(0, 1));
+	    	}
+	    	System.out.println(centena[c]+" e " +dezena[d]+" e " +unidade[u]+" mil "+ centena[centenas]+" e "+dezena[dezenas] +" e " + unidade[unidades]);
+	    }else if (tamanho > 6 && tamanho < 10){
+	    	// estamos nos milhões
+	    }
+		return "Inteiro: "+inteiro +" Racional: "+ racional; 
+	}
+	
 }
 
-
-/* 	•	Tamanho da String tem que ser 11
-	•	Todos os caracteres devem ser numéricos
-	•	Não pode pertencer ao conjunto 111111111, 22222222222, 333333333, 444444444, 555555555, 666666666, 777777777, 888888888, 999999999
-		[0-9]{11}
-	
-	Calculo do DV do CPF => CPF => abc.def.ghi-xy
-
-		Passo-1:	       T1 = a*10 + b*9 + c*8 + d*7 + e*6 + f*5 + g*4 + h*3 + i*2
-	       x = 11 – (T1 % 11)   ;    se  x > 9 então x = 0
-	       
-		Passo-2:	       T2 = a*11 + b*10 + c*9 + d*8 + e*7 + f*6 + g*5 + h*4 + i*3 + x*2
-		
-	       y = 11 – (T2 % 11)   ;     se  y > 9 então y = 0
-		Passo-3:	       DV = xy
-
-*/
 
