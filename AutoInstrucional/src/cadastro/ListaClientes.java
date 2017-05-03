@@ -22,7 +22,9 @@ public class ListaClientes {
 	  * @param cliente
 	  */
 	 public static void excluirCliente(Cliente cliente){
-		 cadClientes.containsKey(cliente.getCpf());		 
+		 	 
+		cadClientes.remove(cliente.getCpf());
+		 
 	 }
 	 
 	 public static Cliente buscarClienteCpf (String cpf) throws SisVendasException{

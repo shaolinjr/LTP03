@@ -12,6 +12,7 @@
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="&quot;"/>
 			<item value="entrada()"/>
 			<item value="entrada"/>
 			<item value="insere"/>
@@ -19,7 +20,6 @@
 			<item value="valorPago"/>
 			<item value="relatorio"/>
 			<item value="pesquisarVeiculo"/>
-			<item value="pesquisar"/>
 		</list>
 		<list key="replacehistory">
 		</list>

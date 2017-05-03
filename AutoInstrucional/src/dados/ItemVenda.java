@@ -10,10 +10,10 @@ public class ItemVenda {
 	
 	public ItemVenda(Produto produto, double precoUnitario, double valorVenda, int quantVenda) {
 		
-		this.produto = produto;
-		this.precoUnitario = precoUnitario;
-		this.valorVenda = valorVenda;
-		this.quantVenda = quantVenda;
+		this.produto 		= produto;
+		this.precoUnitario 	= precoUnitario;
+		this.valorVenda 	= valorVenda;
+		this.quantVenda 	= quantVenda;
 	}
 
 	public Produto getProduto() {

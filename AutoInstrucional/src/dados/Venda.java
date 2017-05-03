@@ -3,19 +3,21 @@ package dados;
 import java.util.GregorianCalendar;
 import dados.Cliente;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import dados.ItemVenda;
 
 
-public class Venda {
-	private int 					numVenda = 0; //sequencial gerado pelo sistema
+public class Venda implements Serializable{
+	private int 					numVenda;
+	private static int num = 0; //sequencial gerado pelo sistema
 	private Cliente 				cliente;
 	private GregorianCalendar 		dataVenda;
 	private ArrayList<ItemVenda>	vendaItens = new ArrayList<>();
 	
 	public Venda(Cliente cliente, GregorianCalendar dataVenda, ArrayList<ItemVenda> vendaItens) {
-		this.numVenda 	= this.numVenda++;
+		this.numVenda 	= num++;
 		this.cliente	= cliente;
 		this.dataVenda 	= dataVenda;
 		this.vendaItens = vendaItens;

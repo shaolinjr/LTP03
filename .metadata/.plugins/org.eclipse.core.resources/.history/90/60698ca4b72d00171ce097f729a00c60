@@ -1,0 +1,452 @@
+package usuario;
+
+import utilitarios.Console;
+import utilitarios.LtpUtil;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+
+import cadastro.ListaClientes;
+import cadastro.ListaProdutos;
+import cadastro.ListaVendas;
+
+import dados.Cliente;
+import dados.Produto;
+import erros.SisVendasException;
+
+public class Usuario {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		if (new File("Clientes.obj").exists()) {
+			lerClientes();
+		}
+		if (new File("Produtos.obj").exists()) {
+			lerProdutos();
+		}
+		
+		menu();
+		
+		gravarClientes();
+		gravarProdutos();
+	}
+	
+	/**
+	 * Método para apresentar um menu para facilitar o uso pelo usuário
+	 */
+	private static void menu (){
+		int opcao = 0;
+		
+		do {
+			System.out.println("********* MENU *********");
+			System.out.println("----- Cliente -----");
+			System.out.println("1. Incluir novo cliente");
+			System.out.println("2. Alterar cliente pelo CPF");
+			System.out.println("3. Excluir cliente pelo CPF");
+			System.out.println("4. Consultar cliente pelo CPF");
+			System.out.println("5. Consultar cliente pelo nome");
+			System.out.println("----- Produtos -----");
+			System.out.println("6. Incluir novo produto");
+			System.out.println("7. Alterar produto pelo código");
+			System.out.println("8. Excluir produto pelo código");
+			System.out.println("----- Vendas -----");
+			System.out.println("9. Incluir uma venda");
+			System.out.println("10. Excluir uma venda");
+			System.out.println("11. Consultar vendas pelo período\n   de data decrescente");
+			System.out.println("12. Consultar estatísticas de vendas\n    por período de vendas");
+			System.out.println("13. Sair");
+			
+			opcao = Console.readInt("\nDigite sua opção: ");
+			
+			switch(opcao){
+			// Cliente
+				case 1:
+					incluirCliente();
+					break;
+				case 2:
+					alterarClienteCPF();
+					break;
+				case 3:
+					deletarClienteCPF();
+					break;
+			
+				case 4:
+					consultarClienteCPF();
+					break;
+				case 5:
+					consultarClienteNome();
+					break;
+			// Produtos
+				case 6:
+					break;
+					
+				case 7:
+					break;
+
+				case 8:
+					break;
+			// Vendas
+				case 9:
+					break;
+				case 10:
+					break;
+				case 11:
+					break;
+				case 12:
+					break;
+				case 13:
+					System.out.println("Saindo...");
+					break;
+				default:
+					System.out.println("Opção inválida");
+					break;
+			}
+			
+			if (opcao == 13){
+				break;
+			}
+		}while (true);
+	}
+
+	// Métodos de leitura e gravação
+	private static void lerClientes() {
+		try {
+			ObjectInputStream inp = new ObjectInputStream(new FileInputStream("Clientes.obj"));
+			ListaClientes.cadClientes = (HashMap<String,Cliente>)inp.readObject();
+			inp.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	private static void gravarClientes() {
+		try {
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Clientes.obj"));
+			out.writeObject(ListaClientes.cadClientes);
+			out.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	
+	private static void lerProdutos() {
+		try {
+			ObjectInputStream inp = new ObjectInputStream(new FileInputStream("Produtos.obj"));
+			ListaProdutos.cadProdutos = (HashMap<Integer,Produto>)inp.readObject();
+			inp.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	private static void gravarProdutos() {
+		try {
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Produtos.obj"));
+			out.writeObject(ListaProdutos.cadProdutos);
+			out.close();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	// Métodos para manipulação das classes ligadas à Cliente
+	
+	/**
+	 * Método para incluir novo cliente na Lista de Clientes cadastrados
+	 */
+	private static void incluirCliente (){
+		// validar CPF -> formato e não podem existir mais de um na lista de cliente
+		String cpf;
+		String nome;
+		String email;
+		String telefone;
+		GregorianCalendar dataInclusao;
+//		ListaClientes clientes;
+		while (true){
+			cpf = Console.readLine("Digite seu CPF: ");
+			
+			if(!LtpUtil.validarCPF(cpf)){
+				System.out.println("CPF inválido!");
+				continue;
+			}
+			// formato válido, verificar se já foi cadastrado!
+			try {
+				ListaClientes.buscarClienteCpf(cpf);
+				System.out.println("Cliente com este CPF já cadastrado. Tente novamente");
+				continue;
+			}catch (SisVendasException e){
+				// se cair aqui tudo bem!
+				break;
+			}
+		}
+		
+		while(true){
+			// validar nome
+			nome = Console.readLine("Digite seu nome: ");
+			
+			if(!nome.matches("[A-Za-z\\s]{1,}\\s[A-Za-z]{1,}")){
+				System.out.println("Nome inválido.Deve possuir pelo menos duas palavras!");
+				continue;
+			}else{
+				break;
+			}
+		}
+		
+		while(true){
+			// validar telefone
+			telefone = Console.readLine("Digite seu telefone: ");
+			if (telefone.isEmpty()){
+				System.out.println("Telefone não pode ficar em branco!");
+				continue;
+			}else{
+				break;
+			}
+		}
+		while(true){
+			// validar email
+			email = Console.readLine("Digite seu email: ");
+			if (!LtpUtil.validarEmail(email)){
+				System.out.println("Email inválido!");
+				continue;
+			}else{
+				break;
+			}
+		}
+		
+		dataInclusao = new GregorianCalendar();
+		// incluir cliente
+		Cliente cliente = new Cliente(cpf, nome, telefone, email, dataInclusao, dataInclusao);
+		try {
+			ListaClientes.incluirCliente(cliente);
+			System.out.println("Cliente cadastrado com sucesso!");
+		}catch (Exception e){
+			System.out.println("Ocorreu algum erro, tente novamente!");
+		}
+	}
+	
+	private static String confirmarMudança (){
+		String opcao = "S";
+		
+		do{
+			opcao = Console.readLine("Deseja confirmar essa mudança?[S/N]: ");
+			if (!opcao.equals("S") && !opcao.equals("N")){
+				System.out.println("Opção inválida!");
+			}
+		}while (!opcao.equals("S") && !opcao.equals("N"));
+		
+		return opcao;
+	}
+	
+	private static void alterarClienteCPF (){
+		String cpf = "";
+		String nome = "";
+		String email = "";
+		String telefone = "";
+		Cliente cliente;
+		int campo = 0;
+		
+		while (true){
+			
+			cpf = Console.readLine("Digite o cpf para realizar a alteração [X para sair]: ");
+			if (cpf.equals("X")){
+				break;
+			}else if(!LtpUtil.validarCPF(cpf) && !cpf.equals("X")){
+				System.out.println("CPF inválido!");
+				continue;
+			}
+			// formato válido, verificar se já foi cadastrado!
+			try {
+				cliente  = ListaClientes.buscarClienteCpf(cpf);
+				System.out.println("\n***** DADOS *****\n");
+				System.out.println(cliente.toString());
+				// mostrar campos para modificar
+				do{
+					System.out.println("Campos: ");
+					System.out.println("0. Cancelar");
+					System.out.println("1. Nome");
+					System.out.println("2. Telefone");
+					System.out.println("3. Email");
+					campo = Console.readInt("Qual campo deseja modificar?: ");
+					
+					if (campo < 0 && campo > 3){
+						System.out.println("Opção inválida");
+					}else if (campo == 0){
+						break;
+					}
+					
+					switch (campo){
+						case 1:
+							while(true){
+								// validar nome
+								nome = Console.readLine("Digite o nome: ");
+								if(!nome.matches("[A-Za-z\\s]{1,}\\s[A-Za-z]{1,}")){
+									System.out.println("Nome inválido.Deve possuir pelo menos duas palavras!");
+									continue;
+								}else{
+									// pegar confirmação para modificar
+									if(confirmarMudança().equals("S")){
+										cliente.setNome(nome);
+									}
+									break;
+								}
+							}
+							break;
+							
+						case 2:
+							while(true){
+								// validar telefone
+								telefone = Console.readLine("Digite seu telefone: ");
+								if (telefone.isEmpty()){
+									System.out.println("Telefone não pode ficar em branco!");
+									continue;
+								}else{
+									// pegar confirmação para modificar
+									if(confirmarMudança().equals("S")){
+										cliente.setTelefone(telefone);
+									}
+									break;
+								}
+							}
+							break;
+							
+						case 3:
+							while(true){
+								// validar email
+								email = Console.readLine("Digite seu email: ");
+								if (!LtpUtil.validarEmail(email)){
+									System.out.println("Email inválido!");
+									continue;
+								}else{
+									// pegar confirmação para modificar
+									if(confirmarMudança().equals("S")){
+										cliente.setEmail(email);
+									}
+									break;
+								}
+							}
+							break;
+					}
+					// setando data de alteração
+					cliente.setDataUltAlteracao(new GregorianCalendar());
+				}while(campo != 0 && (campo > 0 && campo < 4));
+				
+			}catch (SisVendasException e){
+				System.out.println(e.getMessage());
+				continue; // decidimos ficar pedindo o usuário até ele digitar corretamente ou sair
+			}		
+			
+		}
+		
+		if (cpf == "X"){
+			return; // saimos da funcao e voltamos para o menu
+		}
+	}
+	
+	private static void consultarClienteCPF(){
+		String cpf;
+		Cliente cliente;
+		while (true){
+			cpf = Console.readLine("Digite seu cpf: ");
+			
+			if(!LtpUtil.validarCPF(cpf)){
+				System.out.println("CPF inválido!");
+				continue;
+			}
+ 
+			try {
+				cliente = ListaClientes.buscarClienteCpf(cpf);
+				System.out.println(cliente.toString());
+				break;
+			}catch (SisVendasException e){
+				System.out.println(e.getMessage());
+			}
+		}
+	}
+	
+	private static void deletarClienteCPF(){
+		String cpf;
+		String confirmacao = "X";
+		Cliente cliente;
+		while (true){
+			cpf = Console.readLine("Digite seu CPF [X para sair]: ");
+			if(cpf.equals("X")){
+				break;
+			}else if(!LtpUtil.validarCPF(cpf)){
+				System.out.println("CPF inválido!");
+				continue;
+			}
+			// formato válido, verificar se já foi cadastrado!
+			try {
+				cliente = ListaClientes.buscarClienteCpf(cpf);
+				
+				if (ListaVendas.regVendas.get(cpf) != null){
+					// cliente tem alguma venda em seu cpf, então nao pode ser apagado
+					System.out.println("Cliente possui venda em seu CPF, não foi possível apagá-lo.");
+					break;
+				}else{
+					// Mostrar dados, pegar confirmação e apagar usuário!
+					System.out.println("\n***** Dados *****");
+					System.out.println(cliente.toString());
+					confirmacao = confirmarMudança();
+					
+					if (confirmacao.equals("S")){
+						System.out.println("\nCliente excluído com sucesso!\n");
+						ListaClientes.excluirCliente(cliente);	
+					}else{
+						continue; // voltamos no loop e pedimos um cpf, se o usuario quiser, ele pode sair com 'X'
+					}
+					
+				}
+				
+			}catch (SisVendasException e){
+				// se cair aqui tudo bem!
+				System.out.println(e.getMessage());
+				break;
+			}
+		}
+	}
+	
+	private static void consultarClienteNome (){
+		String nome;
+		ArrayList<Cliente> clientes;
+		while(true){
+			// validar nome
+			nome = Console.readLine("Digite o nome do cliente: ");
+			
+			if(nome.isEmpty()){
+				System.out.println("Nome não pode ficar em branco!");
+				continue;
+			}else{
+				break;
+			}
+		}
+		
+		try{
+			clientes = ListaClientes.clientesOrdemAlfabetica(nome);
+			
+			for (Cliente cliente: clientes){
+				System.out.println(cliente.toString()+"\n");
+			}
+		}catch(SisVendasException e){
+			System.out.println(e.getMessage());
+		}
+		
+	}
+	
+	// Métodos para manipulação das classes ligadas à Produto
+	
+	private static incluirProduto(){
+		
+	}
+	
+	
+	// Métodos para manipulação das classes ligadas à Venda
+}

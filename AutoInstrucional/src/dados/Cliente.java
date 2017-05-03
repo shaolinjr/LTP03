@@ -1,7 +1,9 @@
 package dados;
 import java.util.GregorianCalendar;
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
-public class Cliente {
+
+public class Cliente implements Serializable{
 
 	private String cpf, nome, telefone, email;
 	private GregorianCalendar dataInclusao, dataUltAlteracao;
@@ -80,12 +82,12 @@ public class Cliente {
 
 
 	public String toString() {
-		return "CPF..................:" + cpf + "\n"+
-			   "Nome.................:" + nome + "\n"+
-			   "Telefone.............:" + telefone + "\n"+
-			   "Email................:" + email + "\n"+
-			   "Data Inclusão........:" + new SimpleDateFormat("dd/MM/YYYY hh:mm").format(dataInclusao.getTime()) + "\n"+
-			   "Data Última Alteração:" + new SimpleDateFormat("dd/MM/YYYY hh:mm").format(dataUltAlteracao.getTime());
+		return "\nCPF..................: " + cpf + "\n"+
+			   "Nome.................: " + nome + "\n"+
+			   "Telefone.............: " + telefone + "\n"+
+			   "Email................: " + email + "\n"+
+			   "Data Inclusão........: " + new SimpleDateFormat("dd/MM/YYYY hh:mm").format(dataInclusao.getTime()) + "\n"+
+			   "Data Última Alteração: " + new SimpleDateFormat("dd/MM/YYYY hh:mm").format(dataUltAlteracao.getTime()) + "\n";
 	}
 	
 	

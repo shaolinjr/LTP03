@@ -1,19 +1,20 @@
 package dados;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
-public class Produto {
+public class Produto  implements Serializable{
 
-	private int codigo = 0; // sequencial gerado pelo programa
+	private int codigo; // sequencial gerado pelo programa
 	private String nome;
 	private double precoUnitario;
 	private GregorianCalendar dataInclusao, dataUltAlteracao;
-	
+	private static int numero = 0;
 	
 	public Produto( String nome, double precoUnitario, GregorianCalendar dataInclusao,
 			GregorianCalendar dataUltAlteracao) {
 	
-		this.codigo 			= this.codigo ++;
+		this.codigo 			= numero++;
 		this.nome 				= nome;
 		this.precoUnitario 		= precoUnitario;
 		this.dataInclusao 		= dataInclusao;
@@ -29,7 +30,10 @@ public class Produto {
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
-
+	
+	public static void setNumero(int num) {
+		numero = num;
+	}
 
 	public String getNome() {
 		return nome;
@@ -75,7 +79,7 @@ public class Produto {
 		
 		return "Código...............:" + codigo + "\n"+
 			   "Nome.................:" + nome + "\n"+
-			   "Preço Unit...........:" + precoUnitario + "\n"+
+			   "Preço Unit...........:" + "R$ "+precoUnitario + "\n"+
 			   "Data Inclusão........:" + new SimpleDateFormat("dd/MM/YYYY hh:mm").format(dataInclusao.getTime()) + "\n"+
 			   "Data Última Alteração:" + new SimpleDateFormat("dd/MM/YYYY hh:mm").format(dataUltAlteracao.getTime());
 	}
