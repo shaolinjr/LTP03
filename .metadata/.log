@@ -12316,3 +12316,13 @@ java.net.UnknownHostException: download.eclipse.org
 
 !ENTRY org.eclipse.jface.text 2 0 2017-05-07 13:03:59.655
 !MESSAGE Duplicate template id: 'org.eclipse.wst.xslt.templates.xpath.round'
+!SESSION 2017-05-10 21:38:48.906 -----------------------------------------------
+eclipse.buildId=4.6.3.M20170301-0400
+java.version=1.8.0_73
+java.vendor=Oracle Corporation
+BootLoader constants: OS=macosx, ARCH=x86_64, WS=cocoa, NL=pt_BR
+Framework arguments:  -product org.eclipse.epp.package.jee.product -keyring /Users/arthurpires/.eclipse_keyring
+Command-line arguments:  -os macosx -ws cocoa -arch x86_64 -product org.eclipse.epp.package.jee.product -keyring /Users/arthurpires/.eclipse_keyring
+
+!ENTRY org.eclipse.core.net 1 0 2017-05-10 21:38:57.237
+!MESSAGE System property http.nonProxyHosts has been set to local|*.local|169.254/16|*.169.254/16 by an external source. This value will be overwritten using the values from the preferences
