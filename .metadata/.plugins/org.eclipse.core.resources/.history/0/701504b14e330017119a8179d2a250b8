@@ -763,11 +763,6 @@ public class Usuario {
 		
 		try{
 			venda = ListaVendas.buscarVendaCodigo(codVenda);
-			System.out.println(venda.toString());
-			
-			if(confirmarMudança().equals("S")){
-				ListaVendas.excluirVenda(venda);
-			}
 		}catch(SisVendasException e){
 			System.out.println(e.getMessage());
 		}

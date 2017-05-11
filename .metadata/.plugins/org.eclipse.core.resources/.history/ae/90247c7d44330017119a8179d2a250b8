@@ -665,8 +665,6 @@ public class Usuario {
 		float valor;
 		boolean itemExiste = false;
 		Produto produto;
-		Cliente cliente = null; // eclipse pediu para inicializar como null;
-		GregorianCalendar data;
 		
 		while (true){
 			cpf = Console.readLine("Digite seu CPF: ");
@@ -677,7 +675,7 @@ public class Usuario {
 			}
 			// formato válido, verificar se já foi cadastrado!
 			try {
-				cliente = ListaClientes.buscarClienteCpf(cpf);
+				ListaClientes.buscarClienteCpf(cpf);
 				continue;
 			}catch (SisVendasException e){	
 				System.out.println(e.getMessage());
@@ -688,7 +686,7 @@ public class Usuario {
 		
 		while(true){
 			dataVenda = Console.readLine("Digite a data da venda: ");
-			data = new GregorianCalendar(Integer.parseInt(dataVenda.substring(0,3)), Integer.parseInt(dataVenda.substring(4,6)), Integer.parseInt(dataVenda.substring(7))); 
+			GregorianCalendar data = new GregorianCalendar(Integer.parseInt(dataVenda.substring(0,3)), Integer.parseInt(dataVenda.substring(4,6)), Integer.parseInt(dataVenda.substring(7))); 
 			if(!LtpUtil.validarData(dataVenda) || dataVenda.isEmpty() || data.compareTo(new GregorianCalendar()) == -1){
 				System.out.println("Data inválida! Tente novamente.");
 				continue;
@@ -701,19 +699,13 @@ public class Usuario {
 		while (true){
 			int codProduto;
 			// buscando produto por codigo
+			
 			do{
-				codProduto = Console.readInt("Digite o código do produto [-1 para sair]: ");
-				if(codProduto == -1){
-					break;
-				}else if(codProduto < 0){
+				codProduto = Console.readInt("Digite o código do produto: ");
+				if(codProduto < 0){
 					System.out.println("Código inválido, deve ser maior ou igual a zero: ");
 				}
 			}while(codProduto < 0);
-			
-			// saindo do loop quando o usuário nao quiser mais cadastrar nenhum produto
-			if(codProduto == -1){
-				break;
-			}
 			
 			try{
 				produto = ListaProdutos.buscarProdutoCodigo(codProduto);
@@ -736,40 +728,9 @@ public class Usuario {
 			do{
 				quantidade = Console.readInt("Digite a quantidade:");
 				if(quantidade <= 0){
-					System.out.println("Valor inválido! Tem que ser maior que zero.");
+					System.out.println("Valor inválido!");
 				}
 			}while(quantidade <= 0);
-			
-			valor = (float)produto.getPrecoUnitario() * quantidade;
-			ItemVenda item = new ItemVenda(produto, produto.getPrecoUnitario(), valor, quantidade);
-			itensVenda.add(item);
-			
-		}
-		// aqui o usuario já colocou tudo o que queria naquela venda
-		Venda venda = new Venda(cliente, data, itensVenda);
-		ListaVendas.incluirVenda(venda); //incluindo a venda
-	}
-	
-	private static void excluirVenda (){
-		int codVenda = 0;
-		Venda venda;
-		do {
-			codVenda = Console.readInt("Digite o código da venda para exclusão: ");
-			
-			if(codVenda < 0){
-				System.out.println("Código inválido");
-			}
-		}while(codVenda < 0);
-		
-		try{
-			venda = ListaVendas.buscarVendaCodigo(codVenda);
-			System.out.println(venda.toString());
-			
-			if(confirmarMudança().equals("S")){
-				ListaVendas.excluirVenda(venda);
-			}
-		}catch(SisVendasException e){
-			System.out.println(e.getMessage());
 		}
 	}
 }

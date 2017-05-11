@@ -665,7 +665,7 @@ public class Usuario {
 		float valor;
 		boolean itemExiste = false;
 		Produto produto;
-		Cliente cliente = null; // eclipse pediu para inicializar como null;
+		Cliente cliente = null;
 		GregorianCalendar data;
 		
 		while (true){
@@ -701,19 +701,13 @@ public class Usuario {
 		while (true){
 			int codProduto;
 			// buscando produto por codigo
+			
 			do{
-				codProduto = Console.readInt("Digite o código do produto [-1 para sair]: ");
-				if(codProduto == -1){
-					break;
-				}else if(codProduto < 0){
+				codProduto = Console.readInt("Digite o código do produto: ");
+				if(codProduto < 0){
 					System.out.println("Código inválido, deve ser maior ou igual a zero: ");
 				}
 			}while(codProduto < 0);
-			
-			// saindo do loop quando o usuário nao quiser mais cadastrar nenhum produto
-			if(codProduto == -1){
-				break;
-			}
 			
 			try{
 				produto = ListaProdutos.buscarProdutoCodigo(codProduto);
@@ -744,32 +738,8 @@ public class Usuario {
 			ItemVenda item = new ItemVenda(produto, produto.getPrecoUnitario(), valor, quantidade);
 			itensVenda.add(item);
 			
-		}
-		// aqui o usuario já colocou tudo o que queria naquela venda
-		Venda venda = new Venda(cliente, data, itensVenda);
-		ListaVendas.incluirVenda(venda); //incluindo a venda
-	}
-	
-	private static void excluirVenda (){
-		int codVenda = 0;
-		Venda venda;
-		do {
-			codVenda = Console.readInt("Digite o código da venda para exclusão: ");
-			
-			if(codVenda < 0){
-				System.out.println("Código inválido");
-			}
-		}while(codVenda < 0);
-		
-		try{
-			venda = ListaVendas.buscarVendaCodigo(codVenda);
-			System.out.println(venda.toString());
-			
-			if(confirmarMudança().equals("S")){
-				ListaVendas.excluirVenda(venda);
-			}
-		}catch(SisVendasException e){
-			System.out.println(e.getMessage());
+			Venda venda = new Venda(cliente, data, itensVenda);
+			ListaVendas.incluirVenda(venda);
 		}
 	}
 }
