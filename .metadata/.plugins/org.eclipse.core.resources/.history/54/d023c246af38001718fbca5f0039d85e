@@ -26,12 +26,6 @@ public class ListaProdutos {
 		cadProdutos.remove(produto.getCodigo());
 	}
 	
-	/**
-	 * Método para buscar produto no hashmap de produtos dado código especificado
-	 * @param codigo
-	 * @return objeto do tipo produto
-	 * @throws SisVendasException
-	 */
 	public static Produto buscarProdutoCodigo (int codigo) throws SisVendasException{
 		if(cadProdutos.containsKey(codigo)){
 			return cadProdutos.get(codigo);
@@ -40,13 +34,6 @@ public class ListaProdutos {
 		}
 	}
 	
-	
-	/**
-	 * Método para retornar os produtos que têm o nome especificado em ordem alfabética
-	 * @param nomeProduto
-	 * @return
-	 * @throws SisVendasException
-	 */
 	public static ArrayList<Produto> produtosOrdemAlfabetica (String nomeProduto) throws SisVendasException{
 		ArrayList<Produto> produtosOrdenados = new ArrayList<>();
 		

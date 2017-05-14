@@ -15,7 +15,7 @@ public class ListaClientes {
 	  * @param cliente: Objeto do tipo Cliente
 	  */
 	public static void incluirCliente (Cliente cliente){
-		cadClientes.put(cliente.getCpf(), cliente);
+		 cadClientes.put(cliente.getCpf(), cliente);
 	}
 	 
 	 /**

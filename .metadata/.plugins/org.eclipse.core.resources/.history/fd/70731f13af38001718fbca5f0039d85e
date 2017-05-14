@@ -10,28 +10,14 @@ import erros.SisVendasException;
 public class ListaProdutos {	
 	public static HashMap<Integer, Produto> cadProdutos = new HashMap<>();
 	
-	/**
-	 * Método para incluir um objetodo tipo Produto no hashmap de produtos
-	 * @param produto
-	 */
 	public static void incluirProduto (Produto produto){
 		cadProdutos.put(produto.getCodigo(), produto);
 	}
 	
-	/**
-	 * Método para excluir um objeto do tipo Produto do hashmap de produtos
-	 * @param produto
-	 */
 	public static void excluirProduto(Produto produto){
 		cadProdutos.remove(produto.getCodigo());
 	}
 	
-	/**
-	 * Método para buscar produto no hashmap de produtos dado código especificado
-	 * @param codigo
-	 * @return objeto do tipo produto
-	 * @throws SisVendasException
-	 */
 	public static Produto buscarProdutoCodigo (int codigo) throws SisVendasException{
 		if(cadProdutos.containsKey(codigo)){
 			return cadProdutos.get(codigo);
@@ -40,13 +26,6 @@ public class ListaProdutos {
 		}
 	}
 	
-	
-	/**
-	 * Método para retornar os produtos que têm o nome especificado em ordem alfabética
-	 * @param nomeProduto
-	 * @return
-	 * @throws SisVendasException
-	 */
 	public static ArrayList<Produto> produtosOrdemAlfabetica (String nomeProduto) throws SisVendasException{
 		ArrayList<Produto> produtosOrdenados = new ArrayList<>();
 		

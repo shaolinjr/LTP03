@@ -22,6 +22,7 @@ public class ListaVendas {
 		regVendas.put(venda.getNumVenda(), venda);
 	}
 	
+	
 	/** 
 	 * Método para excluir registro de vendas dado um objeto do tipo Venda
 	 * @param venda
@@ -30,10 +31,11 @@ public class ListaVendas {
 		regVendas.remove(venda.getNumVenda());
 	}
 	
+	
 	/**
 	 * Método para buscar o item da venda através do código
 	 * @param codigo
-	 * @return Objeto do tipo venda
+	 * @return
 	 * @throws SisVendasException
 	 */
 	public static Venda buscarVendaCodigo (int codigo) throws SisVendasException{
@@ -44,12 +46,6 @@ public class ListaVendas {
 		}
 	}
 	
-	/**
-	 * Método para buscar venda por cliente em ordem de data decrescente
-	 * @param cliente
-	 * @return ArrayList com as vendas do período
-	 * @throws SisVendasException
-	 */
 	public static ArrayList<Venda> buscarVendaDataDecrescente (Cliente cliente) throws SisVendasException{
 		ArrayList<Venda> vendasCliente = new ArrayList<>();
 		
@@ -65,12 +61,6 @@ public class ListaVendas {
 
 	}	
 	
-	/**
-	 * Método para retornar a lista de vendas ordenadas por nome e data em período especificado
-	 * @param dataInicial
-	 * @param dataFinal
-	 * @return ArrayList ordenado com as vendas do período
-	 */
 	public static ArrayList<Venda> listaVendasOrdenada (GregorianCalendar dataInicial, GregorianCalendar dataFinal){
 		//fazer um loop e adicionar no arraylist os itens de venda para o periodo, validar dataVenda pra estar dentro
 		ArrayList<Venda> vendasNoPeriodo = new ArrayList<>();
@@ -90,20 +80,14 @@ public class ListaVendas {
 		return vendasNoPeriodo;
 	}
 	
-	/**
-	 * Método para gerar as estatísticas de vendas em dado período
-	 * @param dataInicial
-	 * @param dataFinal
-	 * @return ArrayList em ordem alfabetica com as informações da estatística
-	 */
 	public static ArrayList<Estatistica> obterEstatisticasVenda (GregorianCalendar dataInicial, GregorianCalendar dataFinal){
 		ArrayList<Venda> vendasOrdenadas = listaVendasOrdenada(dataInicial, dataFinal);
 		String nome;
 		int qtdCompras;
 		float totalCompras;
-		boolean jaExiste = false;	
+		boolean jaExiste = false;
+//		ArrayList<Estatistica> estatisticas = new ArrayList<>();	
 		HashMap<String, Estatistica> estatisticas = new HashMap<>();
-		
 		for (Venda venda: vendasOrdenadas){
 			qtdCompras 	 = 1;
 			totalCompras = 0;
@@ -142,7 +126,6 @@ public class ListaVendas {
 		return estats;
 	}
 }
-
 	class OrdenarNome implements Comparator<Estatistica>{
 
 		@Override

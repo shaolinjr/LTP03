@@ -247,7 +247,7 @@ public class Usuario {
 		return false;
 	}
 	
-	// Métodos para teste de cadastro de produtos, clientes e vendas [opcao 14 no menu]
+	// Métodos para teste de cadastro de produtos, clientes e vendas
 	private static void listarProdutos (){
 		for (Produto produto: ListaProdutos.cadProdutos.values()){
 			System.out.println(produto.toString()+"\n");
