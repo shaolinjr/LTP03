@@ -30,6 +30,10 @@ public class Venda implements Serializable{
 	public void setNumVenda(int numVenda) {
 		this.numVenda = numVenda;
 	}
+	
+	public static void setNumero (int numero){
+		num = numero;
+	}
 
 	public Cliente getCliente() {
 		return cliente;
@@ -59,12 +63,12 @@ public class Venda implements Serializable{
 	public String toString() {
 		StringBuilder itens = new StringBuilder(); // testar a visualizacao desse bagulho depois
 		for(ItemVenda item: vendaItens){
-			itens.append("- "+item+"\n");
+			itens.append("\n- "+item+"\n");
 		}
-		return "Num. Venda....:" + numVenda + "\n" +
-			   "Cliente.......:" + cliente + "\n" +
-			   "Data Venda....:" + new SimpleDateFormat("dd/MM/YYYY hh:mm").format(dataVenda) + "\n" +
-			   "Venda Itens...:" + itens;	
+		return "Num. Venda....: " + numVenda + "\n" +
+			   "Cliente.......: " + cliente.getNome() + "\n" +
+			   "Data Venda....: " + new SimpleDateFormat("dd/MM/YYYY").format(dataVenda.getTime()) + "\n" +
+			   "Venda Itens...: " + itens;	
 	}	
 	
 }

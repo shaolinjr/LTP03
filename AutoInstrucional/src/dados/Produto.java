@@ -9,7 +9,7 @@ public class Produto  implements Serializable{
 	private String nome;
 	private double precoUnitario;
 	private GregorianCalendar dataInclusao, dataUltAlteracao;
-	private static int numero = 0;
+	private static int  numero = 0;
 	
 	public Produto( String nome, double precoUnitario, GregorianCalendar dataInclusao,
 			GregorianCalendar dataUltAlteracao) {
@@ -26,13 +26,15 @@ public class Produto  implements Serializable{
 		return codigo;
 	}
 
-
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
 	
 	public static void setNumero(int num) {
 		numero = num;
+	}
+	public static int getNumero (){
+		return numero;
 	}
 
 	public String getNome() {
@@ -77,11 +79,11 @@ public class Produto  implements Serializable{
 	
 	public String toString() {
 		
-		return "Código...............:" + codigo + "\n"+
-			   "Nome.................:" + nome + "\n"+
-			   "Preço Unit...........:" + "R$ "+precoUnitario + "\n"+
-			   "Data Inclusão........:" + new SimpleDateFormat("dd/MM/YYYY hh:mm").format(dataInclusao.getTime()) + "\n"+
-			   "Data Última Alteração:" + new SimpleDateFormat("dd/MM/YYYY hh:mm").format(dataUltAlteracao.getTime());
+		return "\tCódigo...............: " + codigo + "\n"+
+			   "\tNome.................: " + nome + "\n"+
+			   "\tPreço Unit...........: " + "R$ "+precoUnitario + "\n"+
+			   "\tData Inclusão........: " + new SimpleDateFormat("dd/MM/YYYY hh:mm").format(dataInclusao.getTime()) + "\n"+
+			   "\tData Última Alteração: " + new SimpleDateFormat("dd/MM/YYYY hh:mm").format(dataUltAlteracao.getTime());
 	}
 	
 	

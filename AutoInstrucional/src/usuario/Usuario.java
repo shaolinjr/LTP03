@@ -6,6 +6,7 @@ import utilitarios.LtpUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -19,6 +20,7 @@ import cadastro.ListaProdutos;
 import cadastro.ListaVendas;
 
 import dados.Cliente;
+import dados.Estatistica;
 import dados.ItemVenda;
 import dados.Produto;
 import dados.Venda;
@@ -28,6 +30,8 @@ public class Usuario {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		// BUG: GRAVAR VENDA [OK]
+		// BUG: NOME COM ACENTO N PASSA NO REGEX
 		if (new File("Clientes.obj").exists()) {
 			lerClientes();
 		}
@@ -47,7 +51,7 @@ public class Usuario {
 	}
 	
 	/**
-	 * Método para apresentar um menu para facilitar o uso pelo usuário
+	 * Método para apresentar um menu para facilitar o uso do programa pelo usuário
 	 */
 	private static void menu (){
 		int opcao = 0;
@@ -104,21 +108,34 @@ public class Usuario {
 					break;
 			// Vendas
 				case 9:
+					incluirVenda();
 					break;
 				case 10:
+					excluirVenda();
 					break;
 				case 11:
+					consultarVendasPeriodo();
 					break;
 				case 12:
+					obterEstatisticasPeriodo();
 					break;
 				case 13:
 					System.out.println("Saindo...");
+					break;
+				case 14:
+					System.out.println("****** LISTAS ******");
+					System.out.println("****** PRODUTOS ******");
+					listarProdutos();
+					System.out.println();
+					System.out.println("****** CLIENTES ******");
+					listarClientes();
+					System.out.println("****** VENDAS ******");
+					listarVendas();
 					break;
 				default:
 					System.out.println("Opção inválida");
 					break;
 			}
-			
 			if (opcao == 13){
 				break;
 			}
@@ -152,7 +169,7 @@ public class Usuario {
 			ObjectInputStream inp = new ObjectInputStream(new FileInputStream("Produtos.obj"));
 			ListaProdutos.cadProdutos = (HashMap<Integer,Produto>)inp.readObject();
 			// temos que pegar o ultimo codigo e usá-lo como referencia
-			// nem sempre o tamanho do cadProdutos vai representar de forma real
+			// nem sempre o tamanho do cadProdutos vai representar de forma real o numero sequencial
 			// ex: quando apagar algum dado sem ser o ultimo, o tamanho do cadProdutos irá mudar
 			// e o codigo terá uma posição a menos, sobrescrevendo todos os próximos itens que estiverem na 
 			// sequencia
@@ -164,7 +181,7 @@ public class Usuario {
 			// pegamos o codigo do ultimo produto cadastrado e continuamos a sequencia
 			// dessa forma eliminamos o possivel bug de sequencia após apagar algum registro
 			Produto.setNumero(produtos.get(produtos.size() - 1).getCodigo()); // Atualizando a variavel de geração de numeros
-			
+			System.out.println("Num produto: "+ produtos.get(produtos.size() - 1).getCodigo());
 			inp.close();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -177,7 +194,7 @@ public class Usuario {
 			out.writeObject(ListaProdutos.cadProdutos);
 			out.close();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("Teste doido de gravar produtos");
 		}
 		
 	}
@@ -185,10 +202,16 @@ public class Usuario {
 	private static void lerVendas() {
 		try {
 			ObjectInputStream inp = new ObjectInputStream(new FileInputStream("Vendas.obj"));
-			ListaVendas.regVendas = (HashMap<Integer,Venda>)inp.readObject();
+			ListaVendas.regVendas = (HashMap<Integer,Venda>) inp.readObject();
+			ArrayList<Venda> vendas = new ArrayList<>();
+			
+			for (Venda venda: ListaVendas.regVendas.values()){
+				vendas.add(venda);
+			}
+			Venda.setNumero(vendas.get(vendas.size() -1).getNumVenda());
 			inp.close();
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("Erro de leitura venda");
 		}
 		
 	}
@@ -197,11 +220,48 @@ public class Usuario {
 			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Vendas.obj"));
 			out.writeObject(ListaVendas.regVendas);
 			out.close();
-		} catch (Exception e) {
+		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
 	}
 	
+	// Métodos gerais
+	private static GregorianCalendar criarData (String data){
+		
+		return new GregorianCalendar(
+			Integer.parseInt(data.substring(6)), 
+			Integer.parseInt(data.substring(3,5)) - 1,
+			Integer.parseInt(data.substring(0,2))
+		);
+	}
+	
+	private static boolean validarData (String data){
+		
+		if(data.length() == 10 && data.matches("[0-9]{2}/[0-9]{2}/[0-9]{4}")){
+			return true;
+		}
+		return false;
+	}
+	
+	// Métodos para teste de cadastro de produtos, clientes e vendas
+	private static void listarProdutos (){
+		for (Produto produto: ListaProdutos.cadProdutos.values()){
+			System.out.println(produto.toString()+"\n");
+		}
+	}
+	
+	private static void listarClientes (){
+		for (Cliente cliente: ListaClientes.cadClientes.values()){
+			System.out.println(cliente.toString()+"\n");
+		}
+	}
+	
+	private static void listarVendas(){
+		for(Venda venda: ListaVendas.regVendas.values()){
+			System.out.println(venda.toString()+"\n");
+		}
+	}
+
 	// Métodos para manipulação das classes ligadas à Cliente
 	
 	/**
@@ -277,6 +337,10 @@ public class Usuario {
 		}
 	}
 	
+	/**
+	 * Método para confirmar mudanças feitas na aplicação
+	 * @return "S" ou "N" de acordo com a escolha do usuario
+	 */
 	private static String confirmarMudança (){
 		String opcao = "S";
 		
@@ -290,6 +354,9 @@ public class Usuario {
 		return opcao;
 	}
 	
+	/**
+	 * Método para alterar Cliente de acordo com seu CPF
+	 */
 	private static void alterarClienteCPF (){
 		String cpf = "";
 		String nome = "";
@@ -395,6 +462,10 @@ public class Usuario {
 		}
 	}
 	
+	
+	/**
+	 * Método para consultar Cliente de acordo com CPF especificado
+	 */
 	private static void consultarClienteCPF(){
 		String cpf;
 		Cliente cliente;
@@ -416,6 +487,9 @@ public class Usuario {
 		}
 	}
 	
+	/**
+	 * Método para deletar cliente dado CPF
+	 */
 	private static void deletarClienteCPF(){
 		String cpf;
 		String confirmacao = "X";
@@ -459,6 +533,10 @@ public class Usuario {
 		}
 	}
 	
+	
+	/**
+	 * Método para consultar clientes com o nome ou parte do nome especificado
+	 */
 	private static void consultarClienteNome (){
 		String nome;
 		ArrayList<Cliente> clientes;
@@ -488,6 +566,10 @@ public class Usuario {
 	
 	// Métodos para manipulação das classes ligadas à Produto
 	
+	
+	/**
+	 * Método para incluir produto na lista de produtos
+	 */
 	private static void incluirProduto(){
 		String nome;
 		double precoUnitario;
@@ -509,13 +591,19 @@ public class Usuario {
 		}while(precoUnitario <= 0);
 		
 		dataInclusao = new GregorianCalendar();
+		ArrayList<Produto> produtos = new ArrayList<>();
+		for(Produto prod: ListaProdutos.cadProdutos.values()){
+			produtos.add(prod);
+		}
 		
 		produto = new Produto(nome, precoUnitario, dataInclusao, dataInclusao);
-//		System.out.println("Qtd de registros produto: "+ ListaProdutos.cadProdutos.size());
-//		produto.setNumero(ListaProdutos.cadProdutos.size()); //atualizando o numero do registro
+//		System.out.println("Novo produto codigo: "+produto.getCodigo());
 		ListaProdutos.incluirProduto(produto);
 	}
 	
+	/**
+	 * Método para alterar informações do produto através do código fornecido
+	 */
 	private static void alterarProdutoCodigo (){
 		int codigo;
 		String nome;
@@ -586,6 +674,10 @@ public class Usuario {
 		}
 	}
 	
+	
+	/**
+	 * Método para deletar produto de acordo com o código fornecido
+	 */
 	private static void deletarProdutoCodigo (){
 		int codigo;
 		Produto produto;
@@ -606,7 +698,7 @@ public class Usuario {
 				ArrayList<ItemVenda> vendasItem = venda.getVendaItens();
 				for (ItemVenda item: vendasItem){
 					if(item.getProduto() == produto){
-						System.out.println("\nExistem vendas registradas para esse produto. Portanto ele não pode ser excluído");
+						System.out.println("\nExistem vendas registradas para esse produto.\nPortanto ele não pode ser excluído");
 						existeVendas = true;
 						break;
 					}
@@ -633,6 +725,10 @@ public class Usuario {
 		
 	}
 	
+	
+	/**
+	 * Método para consultar produto pelo nome especificado  
+	 */
 	private static void consultarProdutoNome (){
 		String nome;
 		ArrayList<Produto> produtos;
@@ -656,6 +752,10 @@ public class Usuario {
 	}
 
 	// Métodos para manipulação das classes ligadas à Venda
+	
+	/**
+	 * Método para incluir venda
+	 */
 	private static void incluirVenda (){
 		// validar existencia de cpf cadastrado
 		String cpf;
@@ -678,18 +778,26 @@ public class Usuario {
 			// formato válido, verificar se já foi cadastrado!
 			try {
 				cliente = ListaClientes.buscarClienteCpf(cpf);
-				continue;
+				System.out.println("Cliente encontrado!");
+				break;
 			}catch (SisVendasException e){	
 				System.out.println(e.getMessage());
-				break;
+				continue;
 			}
 			
 		}
 		
 		while(true){
+			
 			dataVenda = Console.readLine("Digite a data da venda: ");
-			data = new GregorianCalendar(Integer.parseInt(dataVenda.substring(0,3)), Integer.parseInt(dataVenda.substring(4,6)), Integer.parseInt(dataVenda.substring(7))); 
-			if(!LtpUtil.validarData(dataVenda) || dataVenda.isEmpty() || data.compareTo(new GregorianCalendar()) == -1){
+			if(!validarData(dataVenda)){
+				System.out.println("Data inválida.");
+				continue;
+			}
+			
+			data = criarData(dataVenda);
+			
+			if(data.compareTo(new GregorianCalendar()) >0){
 				System.out.println("Data inválida! Tente novamente.");
 				continue;
 			}else{
@@ -717,17 +825,22 @@ public class Usuario {
 			
 			try{
 				produto = ListaProdutos.buscarProdutoCodigo(codProduto);
+				
 				// verificar se já existe produto em algum item de venda
 				for (ItemVenda prod: itensVenda){
-					if (prod.getProduto().equals(prod)){
+					if (prod.getProduto().equals(produto)){
 						System.out.println("Produto já colocado na lista de vendas");
 						itemExiste = true;
 						break;
+					}else{
+						itemExiste = false;
 					}
 				}
 				if (itemExiste){
 					continue; // pedimos um novo produto, ja que o ultimo já tinha sido colocado na lista
 				}
+				
+				System.out.println("Produto encontrado: "+produto.getNome());
 			}catch(SisVendasException e){
 				System.out.println(e.getMessage());
 				continue;
@@ -750,6 +863,10 @@ public class Usuario {
 		ListaVendas.incluirVenda(venda); //incluindo a venda
 	}
 	
+	
+	/**
+	 * Método para excluir venda através do código de venda
+	 */
 	private static void excluirVenda (){
 		int codVenda = 0;
 		Venda venda;
@@ -770,6 +887,117 @@ public class Usuario {
 			}
 		}catch(SisVendasException e){
 			System.out.println(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Método para consultar as vendas dado um periodo especificado
+	 */
+	private static void consultarVendasPeriodo(){
+		// pegar datainicial -> maior que atual = false
+		// pegar datafinal -> menor que datainicial = false
+		// pegar datafinal -> 
+		
+		GregorianCalendar dataInicial;
+		String dataInicialStr;
+		GregorianCalendar dataFinal;
+		String dataFinalStr;
+		ArrayList<Venda> vendasPeriodo;
+		
+		do{
+			dataInicialStr = Console.readLine("Digite a data inicial: ");
+			if(dataInicialStr.isEmpty()){
+				System.out.println("Data inicial não pode ficar em branco");
+				continue;
+			}else if (!LtpUtil.validarData(dataInicialStr)){
+				System.out.println("Data no formato inválido.");
+				continue;
+			}else {
+				break;
+			}
+		}while (true);
+		
+		
+		dataInicial = criarData(dataInicialStr);
+		
+		do{
+			dataFinalStr = Console.readLine("Digite a data final: ");
+			
+			if(dataFinalStr.isEmpty()){
+				System.out.println("Data final não pode ficar em branco");
+				continue;
+			}else if (!LtpUtil.validarData(dataFinalStr)){
+				System.out.println("Data no formato inválido.");
+				continue;
+			}
+			
+			dataFinal = criarData(dataFinalStr);
+				
+			if(dataFinal.before(dataInicial)){
+				System.out.println("Data final não pode ser antes que a data inicial");
+				continue;
+			}else{
+				break;
+			}
+		}while (true);
+		
+		vendasPeriodo = ListaVendas.listaVendasOrdenada(dataInicial, dataFinal);
+		
+		for (Venda venda: vendasPeriodo){
+			System.out.println(venda.toString()+"\n");
+		}
+	}
+
+	/**
+	 * Método para obter estatísticas de acordo com periodo especificado
+	 */
+	private static void obterEstatisticasPeriodo(){
+		GregorianCalendar dataInicial;
+		String dataInicialStr;
+		GregorianCalendar dataFinal;
+		String dataFinalStr;
+		ArrayList<Estatistica> resultados;
+		do{
+			dataInicialStr = Console.readLine("Digite a data inicial: ");
+			if(dataInicialStr.isEmpty()){
+				System.out.println("Data inicial não pode ficar em branco");
+				continue;
+			}else if (!LtpUtil.validarData(dataInicialStr)){
+				System.out.println("Data no formato inválido.");
+				continue;
+			}else {
+				break;
+			}
+		}while (true);
+		
+		dataInicial = criarData(dataInicialStr);
+		
+		do{
+			dataFinalStr = Console.readLine("Digite a data final: ");
+			
+			if(dataFinalStr.isEmpty()){
+				System.out.println("Data final não pode ficar em branco");
+				continue;
+			}else if (!LtpUtil.validarData(dataFinalStr)){
+				System.out.println("Data no formato inválido.");
+				continue;
+			}
+			
+			dataFinal = criarData(dataFinalStr);
+				
+			if(dataFinal.before(dataInicial)){
+				System.out.println("Data final não pode ser antes que a data inicial");
+				continue;
+			}else{
+				break;
+			}
+		}while (true);
+		
+		resultados = ListaVendas.obterEstatisticasVenda(dataInicial, dataFinal);
+		System.out.println("\n---------- ESTATÍSTICAS ----------");
+		
+		for (Estatistica resultado: resultados){
+			System.out.println(resultado.toString()+ "\n");
 		}
 	}
 }

@@ -1,8 +1,10 @@
 package dados;
 
+import java.io.Serializable;
+
 import dados.Produto;
 
-public class ItemVenda {
+public class ItemVenda implements Serializable{
 	
 	private Produto produto;
 	private double precoUnitario, valorVenda;
@@ -50,10 +52,10 @@ public class ItemVenda {
 
 	
 	public String toString() {
-		return "Produto........:" + produto + "\n"+
-			   "Preco Unit.....:" + precoUnitario + "\n"+ 
-			   "Valor Venda....:" + valorVenda+ "\n"+
-			   "Quant. Venda...:" + quantVenda;
+		return "Produto........:\n" + produto + "\n"+
+			   "Preco Unit.....: R$" + precoUnitario + "\n"+ 
+			   "Valor Venda....: R$" + valorVenda+ "\n"+
+			   "Quant. Venda...: " + quantVenda;
 	}
 	
 	
