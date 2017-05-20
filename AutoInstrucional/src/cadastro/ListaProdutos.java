@@ -7,6 +7,13 @@ import java.util.HashMap;
 import dados.Produto;
 import erros.SisVendasException;
 
+/**
+ * Classe Lista Produtos para receber e manipular os objetos da classe Produto 
+ * @author arthurpires
+ * @version 1.0
+ * @since 05/05/2017
+ */
+
 public class ListaProdutos {	
 	public static HashMap<Integer, Produto> cadProdutos = new HashMap<>();
 	

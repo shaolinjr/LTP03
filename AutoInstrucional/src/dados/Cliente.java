@@ -3,6 +3,13 @@ import java.util.GregorianCalendar;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 
+/**
+ * Classe Cliente para abstrair os dados necessários e formar o objeto 
+ * @author arthurpires
+ * @version 1.0
+ * @since 05/05/2017
+ */
+
 public class Cliente implements Serializable{
 
 	private String cpf, nome, telefone, email;

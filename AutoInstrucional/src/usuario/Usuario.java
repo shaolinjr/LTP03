@@ -28,7 +28,8 @@ import erros.SisVendasException;
 /**
  * Classe Usuario para executar as ações referentes à cliente, produtos e vendas 
  * @author arthurpires
- *
+ * @version 1.0
+ * @since 05/05/2017
  */
 public class Usuario {
 
@@ -479,6 +480,7 @@ public class Usuario {
 			if(!LtpUtil.validarCPF(cpf)){
 				System.out.println("CPF inválido!");
 				continue;
+				
 			}
  
 			try {
@@ -487,6 +489,7 @@ public class Usuario {
 				break;
 			}catch (SisVendasException e){
 				System.out.println(e.getMessage());
+				break; //achamos melhor acabar com o loop e mostrar o menu quando nao encontra
 			}
 		}
 	}
@@ -913,7 +916,7 @@ public class Usuario {
 			if(dataInicialStr.isEmpty()){
 				System.out.println("Data inicial não pode ficar em branco");
 				continue;
-			}else if (!LtpUtil.validarData(dataInicialStr)){
+			}else if (validarData(dataInicialStr)){
 				System.out.println("Data no formato inválido.");
 				continue;
 			}else {
@@ -930,7 +933,7 @@ public class Usuario {
 			if(dataFinalStr.isEmpty()){
 				System.out.println("Data final não pode ficar em branco");
 				continue;
-			}else if (!LtpUtil.validarData(dataFinalStr)){
+			}else if (validarData(dataFinalStr)){
 				System.out.println("Data no formato inválido.");
 				continue;
 			}
@@ -966,7 +969,7 @@ public class Usuario {
 			if(dataInicialStr.isEmpty()){
 				System.out.println("Data inicial não pode ficar em branco");
 				continue;
-			}else if (!LtpUtil.validarData(dataInicialStr)){
+			}else if (!validarData(dataInicialStr)){
 				System.out.println("Data no formato inválido.");
 				continue;
 			}else {
@@ -982,7 +985,7 @@ public class Usuario {
 			if(dataFinalStr.isEmpty()){
 				System.out.println("Data final não pode ficar em branco");
 				continue;
-			}else if (!LtpUtil.validarData(dataFinalStr)){
+			}else if (!validarData(dataFinalStr)){
 				System.out.println("Data no formato inválido.");
 				continue;
 			}
@@ -999,9 +1002,13 @@ public class Usuario {
 		
 		resultados = ListaVendas.obterEstatisticasVenda(dataInicial, dataFinal);
 		System.out.println("\n---------- ESTATÍSTICAS ----------");
-		
-		for (Estatistica resultado: resultados){
-			System.out.println(resultado.toString()+ "\n");
+		if (resultados.size() == 0){
+			System.out.println("\nNão há vendas nesse período");
+		}else{
+			for (Estatistica resultado: resultados){
+				
+				System.out.println(resultado.toString()+ "\n");
+			}
 		}
 	}
 }

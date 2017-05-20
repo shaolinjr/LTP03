@@ -8,7 +8,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import dados.ItemVenda;
 
-
+/**
+ * Classe Venda para abstrair os dados necessários e formar o objeto de venda e ser 
+ * posteriormente implementado na classe listaVendas
+ * @author arthurpires
+ * @version 1.0
+ * @since 05/05/2017
+ */
 public class Venda implements Serializable{
 	private int 					numVenda;
 	private static int num = 0; //sequencial gerado pelo sistema

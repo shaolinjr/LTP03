@@ -4,6 +4,14 @@ import java.io.Serializable;
 
 import dados.Produto;
 
+/**
+ * Classe ItemVenda para abstrair os dados necessários e formar o objeto de item de venda 
+ * a ser implementado na classe Venda 
+ * @author arthurpires
+ * @version 1.0
+ * @since 05/05/2017
+ */
+
 public class ItemVenda implements Serializable{
 	
 	private Produto produto;

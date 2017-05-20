@@ -1,5 +1,12 @@
 package dados;
 
+/**
+ * Classe Estatística para abstrair os dados necessários e formar o objeto para manipulação
+ * @author arthurpires
+ * @version 1.0
+ * @since 05/05/2017
+ */
+
 public class Estatistica {
 private String nome;
 private int numComprasPeriodo;

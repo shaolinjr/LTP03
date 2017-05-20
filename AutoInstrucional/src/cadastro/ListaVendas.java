@@ -10,6 +10,13 @@ import dados.Estatistica;
 import dados.ItemVenda;
 import dados.Venda;
 import erros.SisVendasException;
+/**
+ * Classe Lista Vendas para receber os objetos de Venda 
+ * @author arthurpires
+ * @version 1.0
+ * @since 05/05/2017
+ */
+
 
 public class ListaVendas {
 	public static HashMap<Integer, Venda> regVendas = new HashMap<>();

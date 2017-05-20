@@ -3,6 +3,14 @@ package dados;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+
+/**
+ * Classe Produto para abstrair os dados necessários e formar o objeto para manipulação futura
+ * @author arthurpires
+ * @version 1.0
+ * @since 05/05/2017
+ */
+
 public class Produto  implements Serializable{
 
 	private int codigo; // sequencial gerado pelo programa

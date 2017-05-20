@@ -6,6 +6,13 @@ import java.util.Collections;
 import dados.Cliente;
 import erros.SisVendasException;
 
+/**
+ * Classe Lista Clientes para receber e manipular os objetos da Classe Cliente 
+ * @author arthurpires
+ * @version 1.0
+ * @since 05/05/2017
+ */
+
 public class ListaClientes {
 	public static HashMap<String, Cliente>cadClientes = new HashMap<>(); //lembrar que on indice é o cpf
 	 
