@@ -312,12 +312,9 @@ public class Usuario {
 		
 		while(true){
 			// validar telefone
-			telefone = Console.readLine("Digite seu telefone [DD XXXXX-XXXX]: ");
+			telefone = Console.readLine("Digite seu telefone: ");
 			if (telefone.isEmpty()){
-				System.out.println("Telefone em branco!");
-				continue;
-			}else if (!telefone.matches("[0-9]{2}\\s{1}[0-9]{5}-{1}[0-9]{4}")){
-				System.out.println("Telefone deve estar no formato: DD XXXXX-XXXX!");
+				System.out.println("Telefone não pode ficar em branco!");
 				continue;
 			}else{
 				break;

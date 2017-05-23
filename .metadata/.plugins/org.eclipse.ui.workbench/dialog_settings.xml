@@ -44,6 +44,7 @@
 		<item value="true" key="WizardZipFileResourceExportPage1.STORE_COMPRESS_CONTENTS_ID"/>
 		<item value="true" key="WizardZipFileResourceExportPage1.STORE_CREATE_STRUCTURE_ID"/>
 		<list key="WizardZipFileResourceExportPage1.STORE_DESTINATION_NAMES_ID">
+			<item value="/Users/arthurpires/Documents/LTP03/AutoInstrucional/projeto1.0.zip"/>
 			<item value="/Users/arthurpires/Documents/LTP03/AutoInstrucional/projetov1.2.zip"/>
 			<item value="/Users/arthurpires/Documents/LTP03/AutoInstrucional/projetov1.1.zip"/>
 		</list>

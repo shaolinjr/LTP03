@@ -312,7 +312,7 @@ public class Usuario {
 		
 		while(true){
 			// validar telefone
-			telefone = Console.readLine("Digite seu telefone [DD XXXXX-XXXX]: ");
+			telefone = Console.readLine("Digite seu telefone: ");
 			if (telefone.isEmpty()){
 				System.out.println("Telefone em branco!");
 				continue;
